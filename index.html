@@ -9,30 +9,73 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #0a0f1a;
-            --bg-secondary: #111827;
-            --bg-card: #1a2234;
-            --bg-card-hover: #1f2a40;
+            /* 浅色主题（默认）- 现代配色方案 */
+            --bg-primary: #fafbfc;
+            --bg-secondary: #f0f4f8;
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --bg-card-hover: rgba(255, 255, 255, 0.95);
             --accent-primary: #6366f1;
-            --accent-secondary: #818cf8;
-            --accent-glow: rgba(99, 102, 241, 0.3);
-            --success: #22c55e;
-            --success-bg: rgba(34, 197, 94, 0.12);
-            --error: #f43f5e;
-            --error-bg: rgba(244, 63, 94, 0.12);
+            --accent-secondary: #8b5cf6;
+            --accent-tertiary: #a855f7;
+            --accent-glow: rgba(99, 102, 241, 0.2);
+            --accent-glow-strong: rgba(99, 102, 241, 0.3);
+            --success: #10b981;
+            --success-bg: rgba(16, 185, 129, 0.12);
+            --success-glow: rgba(16, 185, 129, 0.2);
+            --error: #ef4444;
+            --error-bg: rgba(239, 68, 68, 0.12);
+            --error-glow: rgba(239, 68, 68, 0.2);
             --warning: #f59e0b;
+            --warning-bg: rgba(245, 158, 11, 0.12);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border-color: rgba(148, 163, 184, 0.15);
+            --border-color-strong: rgba(148, 163, 184, 0.3);
+            --radius-sm: 10px;
+            --radius-md: 14px;
+            --radius-lg: 18px;
+            --radius-xl: 28px;
+            --radius-2xl: 36px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-glow: 0 0 20px var(--accent-glow);
+            --transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* 深色主题 - 现代配色方案 */
+        [data-theme="dark"] {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #0f1624;
+            --bg-card: rgba(26, 34, 52, 0.8);
+            --bg-card-hover: rgba(31, 42, 64, 0.9);
+            --accent-primary: #6366f1;
+            --accent-secondary: #8b5cf6;
+            --accent-tertiary: #a855f7;
+            --accent-glow: rgba(99, 102, 241, 0.4);
+            --accent-glow-strong: rgba(99, 102, 241, 0.5);
+            --success: #10b981;
+            --success-bg: rgba(16, 185, 129, 0.15);
+            --success-glow: rgba(16, 185, 129, 0.3);
+            --error: #ef4444;
+            --error-bg: rgba(239, 68, 68, 0.15);
+            --error-glow: rgba(239, 68, 68, 0.3);
+            --warning: #f59e0b;
+            --warning-bg: rgba(245, 158, 11, 0.15);
             --text-primary: #f1f5f9;
-            --text-secondary: #94a3b8;
+            --text-secondary: #cbd5e1;
             --text-muted: #64748b;
-            --border-color: rgba(148, 163, 184, 0.1);
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --radius-xl: 24px;
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --border-color: rgba(148, 163, 184, 0.12);
+            --border-color-strong: rgba(148, 163, 184, 0.25);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -2px rgba(0, 0, 0, 0.5);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.7), 0 10px 10px -5px rgba(0, 0, 0, 0.6);
+            --shadow-glow: 0 0 30px var(--accent-glow);
         }
 
         * {
@@ -43,12 +86,14 @@
 
         body {
             font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-primary);
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
             color: var(--text-primary);
             line-height: 1.6;
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
+            position: relative;
         }
 
         /* 背景装饰 */
@@ -71,17 +116,66 @@
             width: 200%;
             height: 200%;
             background: 
-                radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(59, 130, 246, 0.04) 0%, transparent 70%);
-            animation: bgFloat 30s ease-in-out infinite;
+                radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 50% 50%, rgba(168, 85, 247, 0.05) 0%, transparent 70%),
+                radial-gradient(ellipse at 10% 90%, rgba(59, 130, 246, 0.04) 0%, transparent 50%);
+            animation: bgFloat 40s ease-in-out infinite;
+            filter: blur(60px);
+        }
+
+        .bg-decoration::after {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -30%;
+            width: 60%;
+            height: 60%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.06) 0%, transparent 70%);
+            animation: bgPulse 20s ease-in-out infinite;
+            filter: blur(80px);
+        }
+
+        [data-theme="dark"] .bg-decoration::before {
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 60%),
+                radial-gradient(ellipse at 50% 50%, rgba(168, 85, 247, 0.08) 0%, transparent 70%),
+                radial-gradient(ellipse at 10% 90%, rgba(59, 130, 246, 0.06) 0%, transparent 50%);
+        }
+
+        [data-theme="dark"] .bg-decoration::after {
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
         }
 
         @keyframes bgFloat {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(2%, 2%) rotate(1deg); }
-            50% { transform: translate(-1%, 3%) rotate(-1deg); }
-            75% { transform: translate(-2%, 1%) rotate(0.5deg); }
+            0%, 100% { 
+                transform: translate(0, 0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            25% { 
+                transform: translate(3%, 3%) rotate(2deg) scale(1.05);
+                opacity: 0.9;
+            }
+            50% { 
+                transform: translate(-2%, 4%) rotate(-2deg) scale(0.98);
+                opacity: 0.95;
+            }
+            75% { 
+                transform: translate(-3%, 2%) rotate(1deg) scale(1.02);
+                opacity: 0.9;
+            }
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { 
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            50% { 
+                transform: scale(1.2);
+                opacity: 0.8;
+            }
         }
 
         /* 主容器 */
@@ -95,14 +189,24 @@
 
         /* 顶部导航 */
         .header {
-            background: rgba(17, 24, 39, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
             border-bottom: 1px solid var(--border-color);
             position: sticky;
             top: 0;
             z-index: 100;
-            padding: 0 20px;
+            padding: 0 12px;
+            transition: var(--transition-smooth);
+            box-shadow: var(--shadow-sm);
+        }
+
+        [data-theme="dark"] .header {
+            background: rgba(15, 22, 36, 0.75);
+        }
+
+        .header.hidden {
+            display: none;
         }
 
         .header-content {
@@ -111,29 +215,54 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 64px;
+            height: 48px;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
         }
 
         .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--accent-primary), #8b5cf6);
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+            background-size: 200% 200%;
             border-radius: var(--radius-md);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            box-shadow: 0 4px 12px var(--accent-glow);
+            font-size: 16px;
+            box-shadow: var(--shadow-glow);
+            animation: gradientShift 3s ease infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
 
         .logo-text {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 700;
             background: linear-gradient(135deg, var(--text-primary), var(--accent-secondary));
             -webkit-background-clip: text;
@@ -145,7 +274,7 @@
         .chapter-selector {
             position: relative;
             display: flex;
-            gap: 8px;
+            gap: 6px;
             align-items: center;
         }
 
@@ -154,28 +283,32 @@
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
-            padding: 10px 44px 10px 16px;
+            padding: 10px 40px 10px 14px;
             color: var(--text-primary);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-family: inherit;
             cursor: pointer;
             transition: var(--transition);
-            min-width: 200px;
-            max-width: 300px;
+            min-width: 180px;
+            max-width: 280px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            box-shadow: var(--shadow-sm);
         }
 
         .chapter-select:hover {
             border-color: var(--accent-primary);
             background: var(--bg-card-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
         }
 
         .chapter-select:focus {
             outline: none;
             border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px var(--accent-glow);
+            box-shadow: 0 0 0 4px var(--accent-glow), var(--shadow-md);
+            transform: translateY(-1px);
         }
 
         .chapter-selector::after {
@@ -187,26 +320,30 @@
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
-            padding: 10px 44px 10px 16px;
+            padding: 10px 40px 10px 14px;
             color: var(--text-primary);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-family: inherit;
             cursor: pointer;
             transition: var(--transition);
             min-width: 180px;
             max-width: 250px;
             position: relative;
+            box-shadow: var(--shadow-sm);
         }
 
         .section-select:hover {
             border-color: var(--accent-primary);
             background: var(--bg-card-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
         }
 
         .section-select:focus {
             outline: none;
             border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px var(--accent-glow);
+            box-shadow: 0 0 0 4px var(--accent-glow), var(--shadow-md);
+            transform: translateY(-1px);
         }
 
         .home-btn {
@@ -228,7 +365,40 @@
         .home-btn:hover {
             background: var(--bg-card-hover);
             border-color: var(--accent-primary);
-            transform: scale(1.05);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        .home-btn:active {
+            transform: translateY(0) scale(1);
+        }
+
+        /* 主题切换按钮 */
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-primary);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        .theme-toggle:active {
+            transform: translateY(0) scale(1);
         }
 
         /* 主内容区 */
@@ -237,60 +407,94 @@
             max-width: 900px;
             width: 100%;
             margin: 0 auto;
-            padding: 24px 20px 100px;
+            padding: 16px 12px 100px;
         }
 
         /* 欢迎页面 */
         .welcome-section {
             text-align: center;
-            padding: 60px 20px;
+            padding: 40px 12px;
             animation: fadeInUp 0.6s ease;
         }
 
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px) scale(0.95);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
             }
         }
 
         .welcome-icon {
-            font-size: 64px;
-            margin-bottom: 24px;
-            animation: float 3s ease-in-out infinite;
+            font-size: 56px;
+            margin-bottom: 20px;
+            animation: float 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            filter: drop-shadow(0 4px 12px var(--accent-glow));
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            0%, 100% { 
+                transform: translateY(0) rotate(0deg) scale(1);
+            }
+            25% { 
+                transform: translateY(-8px) rotate(-2deg) scale(1.05);
+            }
+            50% { 
+                transform: translateY(-12px) rotate(0deg) scale(1.1);
+            }
+            75% { 
+                transform: translateY(-8px) rotate(2deg) scale(1.05);
+            }
         }
 
         .welcome-title {
             font-size: 2rem;
             font-weight: 700;
             margin-bottom: 12px;
-            background: linear-gradient(135deg, var(--text-primary), var(--accent-secondary));
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+            background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            animation: gradientShift 3s ease infinite;
+            letter-spacing: -0.02em;
         }
 
         .welcome-subtitle {
             color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-bottom: 40px;
+            font-size: 1rem;
+            margin-bottom: 24px;
         }
 
         /* 统计卡片 */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 16px;
-            margin-top: 32px;
+            gap: 12px;
+            margin-top: 20px;
         }
 
         .stat-card {
@@ -300,12 +504,33 @@
             padding: 20px;
             text-align: center;
             transition: var(--transition);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .stat-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-6px) scale(1.02);
             border-color: var(--accent-primary);
-            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+            box-shadow: var(--shadow-xl), var(--shadow-glow);
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
         }
 
         .stat-value {
@@ -326,26 +551,43 @@
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-xl);
-            padding: 32px;
-            margin-bottom: 24px;
-            animation: fadeInUp 0.5s ease;
+            padding: 24px;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mode-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+            background-size: 200% 100%;
+            animation: gradientShift 3s ease infinite;
         }
 
         .mode-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             justify-content: space-between;
         }
 
         .mode-buttons {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 24px;
+            gap: 10px;
+            margin-bottom: 16px;
         }
 
         .mode-btn {
@@ -353,31 +595,59 @@
             flex-direction: column;
             align-items: center;
             gap: 8px;
-            padding: 20px;
+            padding: 20px 16px;
             background: var(--bg-secondary);
             border: 2px solid var(--border-color);
             border-radius: var(--radius-lg);
             color: var(--text-secondary);
             font-family: inherit;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mode-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: var(--accent-glow);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
         }
 
         .mode-btn:hover {
             border-color: var(--accent-primary);
             color: var(--text-primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .mode-btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .mode-btn.active {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.1));
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.15));
             border-color: var(--accent-primary);
             color: var(--text-primary);
-            box-shadow: 0 0 20px var(--accent-glow);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-2px);
+        }
+
+        .mode-btn.active::before {
+            width: 300px;
+            height: 300px;
         }
 
         .mode-btn .icon {
-            font-size: 28px;
+            font-size: 24px;
         }
 
         .mode-btn .label {
@@ -391,8 +661,9 @@
 
         .start-btn {
             width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, var(--accent-primary), #8b5cf6);
+            padding: 18px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+            background-size: 200% 200%;
             border: none;
             border-radius: var(--radius-md);
             color: white;
@@ -401,16 +672,34 @@
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
-            box-shadow: 0 4px 16px var(--accent-glow);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+            position: relative;
+            overflow: hidden;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        .start-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
         }
 
         .start-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 24px var(--accent-glow);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-xl), 0 0 30px var(--accent-glow-strong);
+        }
+
+        .start-btn:hover::before {
+            left: 100%;
         }
 
         .start-btn:active {
-            transform: translateY(0);
+            transform: translateY(-1px) scale(1);
         }
 
         .start-btn:disabled {
@@ -418,6 +707,60 @@
             box-shadow: none;
             cursor: not-allowed;
             opacity: 0.6;
+        }
+
+        .start-btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .restart-btn, .continue-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+            background-size: 200% 200%;
+            border: none;
+            border-radius: var(--radius-md);
+            color: white;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+            position: relative;
+            overflow: hidden;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        .restart-btn::before, .continue-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .restart-btn:hover, .continue-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-xl), 0 0 30px var(--accent-glow-strong);
+        }
+
+        .restart-btn:hover::before, .continue-btn:hover::before {
+            left: 100%;
+        }
+
+        .restart-btn:active, .continue-btn:active {
+            transform: translateY(-1px) scale(1);
+        }
+
+        .restart-btn.hidden, .continue-btn.hidden {
+            display: none;
         }
 
         /* 清除章节记录按钮 */
@@ -429,9 +772,9 @@
 
         .clear-chapter-btn {
             width: 100%;
-            padding: 12px 16px;
+            padding: 14px 18px;
             background: var(--error-bg);
-            border: 1px solid rgba(244, 63, 94, 0.3);
+            border: 1px solid rgba(239, 68, 68, 0.3);
             border-radius: var(--radius-md);
             color: var(--error);
             font-size: 0.9rem;
@@ -442,16 +785,43 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .clear-chapter-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: var(--error-glow);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
         }
 
         .clear-chapter-btn:hover {
-            background: rgba(244, 63, 94, 0.2);
+            background: rgba(239, 68, 68, 0.2);
             border-color: var(--error);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .clear-chapter-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .clear-chapter-btn:active {
+            transform: translateY(0);
         }
 
         /* 题目区域 */
         .question-section {
-            animation: fadeInUp 0.4s ease;
+            animation: fadeInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         /* 进度条 */
@@ -461,13 +831,17 @@
             padding: 16px 20px;
             margin-bottom: 20px;
             border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-md);
+            animation: fadeInUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .progress-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .progress-text {
@@ -489,21 +863,43 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--accent-primary), #8b5cf6);
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+            background-size: 200% 100%;
             border-radius: 3px;
-            transition: width 0.4s ease;
+            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: gradientShift 3s ease infinite;
+            box-shadow: 0 0 10px var(--accent-glow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         /* 快速导航 */
         .quick-nav {
             display: flex;
-            gap: 6px;
+            gap: 8px;
             flex-wrap: wrap;
             margin-top: 12px;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease;
+            transition: max-height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), padding 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             align-content: flex-start;
+            opacity: 0;
         }
 
         .quick-nav.expanded {
@@ -511,7 +907,8 @@
             min-height: 100px;
             overflow-y: auto;
             overflow-x: hidden;
-            padding: 8px 4px;
+            padding: 12px 6px;
+            opacity: 1;
             /* 自定义滚动条样式 */
             scrollbar-width: thin;
             scrollbar-color: var(--accent-primary) var(--bg-secondary);
@@ -549,8 +946,8 @@
         }
 
         .quick-nav-btn {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: var(--radius-sm);
             border: 1px solid var(--border-color);
             background: var(--bg-secondary);
@@ -559,11 +956,14 @@
             font-size: 0.75rem;
             cursor: pointer;
             transition: var(--transition);
+            box-shadow: var(--shadow-sm);
         }
 
         .quick-nav-btn:hover {
             border-color: var(--accent-primary);
             color: var(--text-primary);
+            transform: translateY(-2px) scale(1.1);
+            box-shadow: var(--shadow-md);
         }
 
         .quick-nav-btn.current {
@@ -641,6 +1041,67 @@
             background: var(--bg-secondary);
         }
 
+        /* 考试计时器 */
+        .exam-timer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(234, 88, 12, 0.15));
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
+            font-family: 'JetBrains Mono', monospace;
+            animation: timerPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .exam-timer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: timerShine 3s infinite;
+        }
+
+        .exam-timer.hidden {
+            display: none;
+        }
+
+        @keyframes timerPulse {
+            0%, 100% { 
+                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.3), var(--shadow-sm);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 12px 4px rgba(245, 158, 11, 0.4), var(--shadow-md);
+                transform: scale(1.02);
+            }
+        }
+
+        @keyframes timerShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .timer-icon {
+            font-size: 1rem;
+        }
+
+        .timer-value {
+            color: var(--warning);
+            font-size: 0.95rem;
+            font-weight: 600;
+            min-width: 50px;
+            text-align: center;
+        }
+
         /* 题目卡片 */
         .question-card {
             background: var(--bg-card);
@@ -648,15 +1109,33 @@
             border-radius: var(--radius-xl);
             padding: 28px;
             margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-lg);
+            animation: fadeInUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .question-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+            background-size: 200% 100%;
+            animation: gradientShift 3s ease infinite;
         }
 
         .question-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
 
         .question-number {
@@ -680,10 +1159,10 @@
         }
 
         .question-text {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             line-height: 1.8;
-            margin-bottom: 24px;
-            padding-bottom: 20px;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
             border-bottom: 1px solid var(--border-color);
         }
 
@@ -698,22 +1177,48 @@
             display: flex;
             align-items: flex-start;
             gap: 14px;
-            padding: 16px;
+            padding: 18px;
             background: var(--bg-secondary);
             border: 2px solid transparent;
             border-radius: var(--radius-md);
             cursor: pointer;
             transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--accent-primary);
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .option-item:hover:not(.disabled) {
             background: var(--bg-card-hover);
             border-color: var(--accent-primary);
+            transform: translateX(4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .option-item:hover:not(.disabled)::before {
+            transform: scaleY(1);
         }
 
         .option-item.selected {
-            background: rgba(99, 102, 241, 0.1);
+            background: rgba(99, 102, 241, 0.15);
             border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .option-item.selected::before {
+            transform: scaleY(1);
         }
 
         .option-item.correct {
@@ -733,8 +1238,8 @@
 
         .option-label {
             flex-shrink: 0;
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             background: var(--bg-card);
             border: 2px solid var(--border-color);
@@ -745,6 +1250,7 @@
             font-size: 0.85rem;
             font-weight: 600;
             transition: var(--transition);
+            position: relative;
         }
 
         .option-item.selected .option-label {
@@ -784,11 +1290,11 @@
         @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateY(-10px);
+                transform: translateY(-15px) scale(0.95);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
         }
 
@@ -812,12 +1318,18 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(17, 24, 39, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
             border-top: 1px solid var(--border-color);
-            padding: 12px 20px;
+            padding: 16px 20px;
             z-index: 100;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="dark"] .bottom-nav {
+            background: rgba(15, 22, 36, 0.85);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
         }
 
         .nav-content {
@@ -857,20 +1369,63 @@
         }
 
         .nav-btn.primary {
-            background: linear-gradient(135deg, var(--accent-primary), #8b5cf6);
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+            background-size: 200% 200%;
             border: none;
             color: white;
-            box-shadow: 0 4px 12px var(--accent-glow);
+            box-shadow: var(--shadow-md), var(--shadow-glow);
+            position: relative;
+            overflow: hidden;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        .nav-btn.primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
         }
 
         .nav-btn.primary:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px var(--accent-glow);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: var(--shadow-lg), 0 0 25px var(--accent-glow-strong);
+        }
+
+        .nav-btn.primary:hover:not(:disabled)::before {
+            left: 100%;
         }
 
         .nav-btn.submit {
-            background: linear-gradient(135deg, var(--warning), #d97706);
+            background: linear-gradient(135deg, var(--warning), #d97706, #f59e0b);
+            background-size: 200% 200%;
             box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+            animation: gradientShift 3s ease infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn.submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-btn.submit:hover:not(:disabled) {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+        }
+
+        .nav-btn.submit:hover:not(:disabled)::before {
+            left: 100%;
         }
 
         .nav-btn:disabled {
@@ -888,9 +1443,27 @@
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-xl);
-            padding: 40px 32px;
+            padding: 48px 40px;
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-xl);
+            animation: scaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+            background-size: 200% 100%;
+            animation: gradientShift 3s ease infinite;
         }
 
         .result-title {
@@ -921,7 +1494,8 @@
             stroke: url(#scoreGradient);
             stroke-width: 12;
             stroke-linecap: round;
-            transition: stroke-dashoffset 1s ease;
+            transition: stroke-dashoffset 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            filter: drop-shadow(0 0 8px var(--accent-glow));
         }
 
         .score-value {
@@ -948,9 +1522,17 @@
         }
 
         .result-stat {
-            padding: 16px;
+            padding: 20px;
             background: var(--bg-secondary);
             border-radius: var(--radius-md);
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .result-stat:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-color);
+            box-shadow: var(--shadow-md);
         }
 
         .result-stat-value {
@@ -971,8 +1553,12 @@
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-xl);
-            padding: 24px;
-            margin-bottom: 24px;
+            padding: 28px;
+            margin-bottom: 28px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-lg);
+            animation: fadeInUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .sheet-title {
@@ -1007,8 +1593,10 @@
         }
 
         .sheet-item:hover {
-            transform: scale(1.1);
+            transform: scale(1.15) translateY(-2px);
             border-color: var(--accent-primary);
+            box-shadow: var(--shadow-md);
+            z-index: 1;
         }
 
         .sheet-item.correct {
@@ -1034,7 +1622,11 @@
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-xl);
-            padding: 24px;
+            padding: 28px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-lg);
+            animation: fadeInUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .wrong-title {
@@ -1051,8 +1643,15 @@
             background: var(--error-bg);
             border-left: 4px solid var(--error);
             border-radius: var(--radius-md);
-            padding: 16px;
-            margin-bottom: 12px;
+            padding: 18px;
+            margin-bottom: 14px;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .wrong-item:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-md);
         }
 
         .wrong-item:last-child {
@@ -1092,11 +1691,11 @@
 
         /* 章节统计区域 */
         .chapter-stats-section {
-            margin-top: 40px;
+            margin-top: 30px;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-xl);
-            padding: 24px;
+            padding: 20px;
             animation: fadeInUp 0.6s ease 0.2s both;
         }
 
@@ -1116,7 +1715,7 @@
             gap: 12px;
             max-height: 500px;
             overflow-y: auto;
-            padding-right: 8px;
+            padding: 8px 8px 0 0;
             scrollbar-width: thin;
             scrollbar-color: var(--accent-primary) var(--bg-secondary);
         }
@@ -1236,39 +1835,53 @@
 
         /* 移动端适配 */
         @media (max-width: 768px) {
+            .header {
+                padding: 0 8px;
+            }
+
             .header-content {
                 height: auto;
-                padding: 12px 0;
+                padding: 8px 0;
                 flex-direction: column;
-                gap: 12px;
+                gap: 8px;
             }
 
             .logo-text {
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
 
             .chapter-selector {
                 flex-direction: column;
                 width: 100%;
+                gap: 6px;
             }
 
             .chapter-select,
             .section-select {
                 min-width: 100%;
                 max-width: 100%;
+                padding: 8px 36px 8px 12px;
+                font-size: 0.85rem;
             }
 
+            .chapter-selector {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+
+            .theme-toggle,
             .home-btn {
-                width: 100%;
-                margin-top: 8px;
+                width: calc(50% - 3px);
+                height: 32px;
+                margin-top: 0;
             }
 
             .main-content {
-                padding: 16px 12px 100px;
+                padding: 12px 8px 90px;
             }
 
             .welcome-section {
-                padding: 40px 16px;
+                padding: 24px 8px;
             }
 
             .welcome-icon {
@@ -1276,85 +1889,272 @@
             }
 
             .welcome-title {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
             }
 
             .welcome-subtitle {
-                font-size: 1rem;
+                font-size: 0.95rem;
+                margin-bottom: 24px;
             }
 
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
             }
 
             .mode-section {
-                padding: 20px;
+                padding: 16px;
+                margin-bottom: 16px;
             }
 
             .mode-buttons {
                 grid-template-columns: 1fr;
+                gap: 10px;
+                margin-bottom: 16px;
             }
 
-            .question-card {
-                padding: 20px;
-            }
-
-            .question-meta {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .question-text {
-                font-size: 1rem;
-            }
-
-            .option-item {
+            .mode-btn {
                 padding: 14px;
             }
 
-            .bottom-nav {
-                padding: 10px 12px;
+            /* 题目卡片 - 移动端优化 */
+            .question-card {
+                padding: 16px;
+                margin-bottom: 16px;
+                border-radius: var(--radius-lg);
             }
 
-            .nav-btn {
-                padding: 10px 16px;
+            .question-meta {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 14px;
+                gap: 8px;
+            }
+
+            .question-number {
+                padding: 4px 10px;
+                font-size: 0.8rem;
+            }
+
+            .question-source {
+                font-size: 0.75rem;
+                padding: 4px 8px;
+            }
+
+            /* 题目文本 - 确保完整显示 */
+            .question-text {
+                font-size: 1rem;
+                line-height: 1.75;
+                margin-bottom: 16px;
+                padding-bottom: 14px;
+                word-break: break-word;
+            }
+
+            /* 选项 - 移动端优化 */
+            .options-list {
+                gap: 10px;
+            }
+
+            .option-item {
+                padding: 12px;
+                gap: 10px;
+                border-radius: var(--radius-sm);
+            }
+
+            .option-label {
+                width: 24px;
+                height: 24px;
+                font-size: 0.8rem;
+                flex-shrink: 0;
+            }
+
+            .option-text {
+                font-size: 0.95rem;
+                line-height: 1.6;
+                word-break: break-word;
+            }
+
+            /* 答案解析 - 确保完整显示 */
+            .explanation-box {
+                margin-top: 16px;
+                padding: 14px;
+                border-radius: var(--radius-sm);
+            }
+
+            .explanation-title {
+                font-size: 0.9rem;
+                margin-bottom: 8px;
+            }
+
+            .explanation-text {
+                font-size: 0.9rem;
+                line-height: 1.7;
+                word-break: break-word;
+            }
+
+            /* 进度条 */
+            .progress-bar {
+                padding: 12px 14px;
+                margin-bottom: 12px;
+            }
+
+            .progress-header {
+                margin-bottom: 8px;
+            }
+
+            .progress-text {
+                font-size: 0.85rem;
+            }
+
+            /* 考试计时器 - 移动端 */
+            .exam-timer {
+                padding: 4px 10px;
+                gap: 4px;
+            }
+
+            .timer-icon {
                 font-size: 0.9rem;
             }
 
+            .timer-value {
+                font-size: 0.85rem;
+                min-width: 45px;
+            }
+
+            /* 底部导航 - 紧凑布局 */
+            .bottom-nav {
+                padding: 8px 10px;
+                padding-bottom: calc(8px + env(safe-area-inset-bottom));
+            }
+
+            .nav-content {
+                gap: 8px;
+            }
+
+            .nav-btn {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+                max-width: none;
+                border-radius: var(--radius-sm);
+            }
+
+            .nav-btn .icon {
+                display: none;
+            }
+
             .result-card {
-                padding: 24px 16px;
+                padding: 20px 14px;
             }
 
             .result-stats {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .result-stat {
+                padding: 12px;
+            }
+
+            .result-stat-value {
+                font-size: 1.25rem;
             }
 
             .score-ring {
-                width: 150px;
-                height: 150px;
+                width: 140px;
+                height: 140px;
+                margin-bottom: 24px;
             }
 
             .score-value {
-                font-size: 2rem;
+                font-size: 1.8rem;
+            }
+
+            .answer-sheet {
+                padding: 16px;
+            }
+
+            .sheet-title {
+                font-size: 0.9rem;
+                margin-bottom: 12px;
             }
         }
 
         @media (max-width: 480px) {
+            .header {
+                padding: 0 10px;
+            }
+
+            .main-content {
+                padding: 10px 8px 85px;
+            }
+
             .stats-grid {
                 grid-template-columns: 1fr 1fr;
-                gap: 10px;
+                gap: 8px;
             }
 
             .stat-card {
-                padding: 14px;
+                padding: 12px;
             }
 
             .stat-value {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
+            }
+
+            .stat-label {
+                font-size: 0.75rem;
+            }
+
+            /* 考试计时器 - 小屏优化 */
+            .exam-timer {
+                padding: 3px 8px;
+            }
+
+            .timer-icon {
+                font-size: 0.8rem;
+            }
+
+            .timer-value {
+                font-size: 0.8rem;
+                min-width: 40px;
+            }
+
+            /* 题目卡片 - 小屏优化 */
+            .question-card {
+                padding: 14px;
+            }
+
+            .question-text {
+                font-size: 0.95rem;
+                line-height: 1.7;
+            }
+
+            .option-item {
+                padding: 10px;
+            }
+
+            .option-label {
+                width: 22px;
+                height: 22px;
+                font-size: 0.75rem;
+            }
+
+            .option-text {
+                font-size: 0.9rem;
+            }
+
+            /* 答案解析 - 小屏优化 */
+            .explanation-box {
+                padding: 12px;
+            }
+
+            .explanation-text {
+                font-size: 0.85rem;
             }
 
             .progress-bar {
-                padding: 12px 14px;
+                padding: 10px 12px;
             }
 
             .quick-nav-btn {
@@ -1364,16 +2164,90 @@
             }
 
             .quick-nav.expanded {
-                max-height: 300px;
+                max-height: 280px;
             }
 
             .chapter-stats-list {
-                max-height: 400px;
+                max-height: 350px;
             }
 
             .sheet-grid {
-                grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(34px, 1fr));
                 gap: 6px;
+            }
+
+            /* 底部导航 - 小屏优化 */
+            .bottom-nav {
+                padding: 6px 8px;
+                padding-bottom: calc(6px + env(safe-area-inset-bottom));
+            }
+
+            .nav-btn {
+                padding: 8px 10px;
+                font-size: 0.8rem;
+            }
+
+            .result-card {
+                padding: 16px 12px;
+            }
+
+            .result-title {
+                font-size: 1.2rem;
+                margin-bottom: 20px;
+            }
+
+            .score-ring {
+                width: 120px;
+                height: 120px;
+                margin-bottom: 20px;
+            }
+
+            .score-value {
+                font-size: 1.5rem;
+            }
+
+            .result-stats {
+                gap: 8px;
+            }
+
+            .result-stat {
+                padding: 10px;
+            }
+
+            .result-stat-value {
+                font-size: 1.1rem;
+            }
+
+            .result-stat-label {
+                font-size: 0.7rem;
+            }
+        }
+
+        /* 超小屏幕优化 (iPhone SE等) */
+        @media (max-width: 375px) {
+            .main-content {
+                padding: 8px 6px 80px;
+            }
+
+            .question-card {
+                padding: 12px;
+            }
+
+            .question-text {
+                font-size: 0.9rem;
+            }
+
+            .option-text {
+                font-size: 0.85rem;
+            }
+
+            .explanation-text {
+                font-size: 0.8rem;
+            }
+
+            .nav-btn {
+                padding: 8px;
+                font-size: 0.75rem;
             }
         }
     </style>
@@ -1382,7 +2256,7 @@
     <div class="bg-decoration"></div>
     
     <div class="app-container">
-        <header class="header">
+        <header class="header" id="mainHeader">
             <div class="header-content">
                 <div class="logo">
                     <div class="logo-icon">📚</div>
@@ -1395,6 +2269,7 @@
                     <select class="section-select hidden" id="sectionSelect">
                         <option value="">选择小节</option>
                     </select>
+                    <button class="theme-toggle" id="themeToggle" title="切换主题">🌙</button>
                     <button class="home-btn" id="homeBtn" title="返回首页">🏠</button>
                 </div>
             </div>
@@ -1409,7 +2284,7 @@
 
             <!-- 欢迎页面 -->
             <div id="welcomeSection" class="welcome-section hidden">
-                <div class="welcome-icon">🎯</div>
+                <!-- <div class="welcome-icon">🎯</div> -->
                 <h1 class="welcome-title">软考高项智能刷题</h1>
                 <p class="welcome-subtitle">选择章节，开启高效学习之旅</p>
                 <div class="stats-grid" id="globalStats"></div>
@@ -1437,7 +2312,11 @@
                         <span class="desc">模拟真实考试环境</span>
                     </button>
                 </div>
-                <button class="start-btn" id="startBtn">开始答题</button>
+                <div id="startBtnContainer" class="start-btn-container">
+                    <button class="start-btn" id="startBtn">开始答题</button>
+                    <button class="restart-btn hidden" id="restartBtn">重新开始</button>
+                    <button class="continue-btn hidden" id="continueBtn">继续答题</button>
+                </div>
                 <div id="clearChapterBtnContainer" class="clear-chapter-container hidden">
                     <!-- 动态生成清除按钮 -->
                 </div>
@@ -1450,6 +2329,11 @@
                     <div class="progress-header">
                         <span class="progress-text">进度：<strong id="progressText">1/10</strong></span>
                         <div style="display: flex; gap: 8px; align-items: center;">
+                            <!-- 考试计时器 -->
+                            <div class="exam-timer hidden" id="examTimer">
+                                <span class="timer-icon">⏱️</span>
+                                <span class="timer-value" id="timerValue">00:00</span>
+                            </div>
                             <button class="toggle-nav-btn" id="toggleNavBtn">展开导航</button>
                             <button class="home-btn" onclick="goHome()" title="返回首页" style="width: 36px; height: 36px; font-size: 1rem; padding: 0;">🏠</button>
                         </div>
@@ -1517,6 +2401,34 @@
     </div>
 
     <script>
+        // 主题管理
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const html = document.documentElement;
+            html.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton(newTheme);
+        }
+
+        function updateThemeButton(theme) {
+            const themeToggle = document.getElementById('themeToggle');
+            if (themeToggle) {
+                themeToggle.textContent = theme === 'light' ? '🌙' : '☀️';
+                themeToggle.title = theme === 'light' ? '切换到深色主题' : '切换到浅色主题';
+            }
+        }
+
+        // 初始化主题
+        initTheme();
+
         // 题库数据（从JSON文件加载，改为按需加载）
         let questionBank = {};
         
@@ -1875,7 +2787,11 @@
             currentIndex: 0,
             answers: {},
             submitted: false,
-            navExpanded: false
+            navExpanded: false,
+            // 考试计时相关
+            examStartTime: null,
+            examElapsedTime: 0,
+            examTimerInterval: null
         };
 
         // ========== 刷题记录管理 ==========
@@ -1903,6 +2819,11 @@
 
         // 保存刷题记录到localStorage
         function saveProgress() {
+            // 考试模式不计入缓存
+            if (state.currentMode === 'exam') {
+                return;
+            }
+            
             try {
                 const progress = {
                     answers: state.answers,
@@ -2050,6 +2971,36 @@
             const statKey = section !== null ? `${chapter}_${section}` : chapter;
             const hasStat = allStats[statKey] || (section === null && Object.keys(allStats).some(k => k === chapter || k.startsWith(`${chapter}_`)));
             
+            // 检查是否有练习模式的缓存进度
+            const savedProgress = loadProgress();
+            const hasPracticeProgress = savedProgress && 
+                savedProgress.currentChapter === chapter &&
+                savedProgress.currentSection === section &&
+                Object.keys(savedProgress.answers || {}).length > 0;
+            
+            // 根据模式和缓存状态更新按钮显示
+            if (state.currentMode === 'exam') {
+                // 考试模式：只显示"开始答题"按钮
+                elements.startBtn.classList.remove('hidden');
+                elements.startBtn.textContent = '开始答题';
+                elements.restartBtn.classList.add('hidden');
+                elements.continueBtn.classList.add('hidden');
+            } else {
+                // 练习模式
+                if (hasPracticeProgress) {
+                    // 有缓存：显示"重新开始"和"继续（开始）答题"两个按钮
+                    elements.startBtn.classList.add('hidden');
+                    elements.restartBtn.classList.remove('hidden');
+                    elements.continueBtn.classList.remove('hidden');
+                } else {
+                    // 没有缓存：只显示"开始答题"按钮
+                    elements.startBtn.classList.remove('hidden');
+                    elements.startBtn.textContent = '开始答题';
+                    elements.restartBtn.classList.add('hidden');
+                    elements.continueBtn.classList.add('hidden');
+                }
+            }
+            
             // 更新清除按钮显示
             const clearBtnContainer = document.getElementById('clearChapterBtnContainer');
             if (clearBtnContainer) {
@@ -2069,6 +3020,7 @@
 
         // DOM 元素
         const elements = {
+            mainHeader: document.getElementById('mainHeader'),
             loadingSection: document.getElementById('loadingSection'),
             welcomeSection: document.getElementById('welcomeSection'),
             modeSection: document.getElementById('modeSection'),
@@ -2081,6 +3033,8 @@
             globalStats: document.getElementById('globalStats'),
             selectedChapterName: document.getElementById('selectedChapterName'),
             startBtn: document.getElementById('startBtn'),
+            restartBtn: document.getElementById('restartBtn'),
+            continueBtn: document.getElementById('continueBtn'),
             progressText: document.getElementById('progressText'),
             progressFill: document.getElementById('progressFill'),
             quickNav: document.getElementById('quickNav'),
@@ -2094,7 +3048,9 @@
             resultStats: document.getElementById('resultStats'),
             answerSheet: document.getElementById('answerSheet'),
             wrongQuestions: document.getElementById('wrongQuestions'),
-            backBtn: document.getElementById('backBtn')
+            backBtn: document.getElementById('backBtn'),
+            examTimer: document.getElementById('examTimer'),
+            timerValue: document.getElementById('timerValue')
         };
 
         // 初始化
@@ -2277,6 +3233,9 @@
             const lastVisit = getCookie(COOKIE_KEY);
             const lastVisitText = lastVisit ? new Date(parseInt(lastVisit)).toLocaleDateString('zh-CN') : '首次访问';
             
+            // 计算做题进度百分比
+            const progressPercent = totalQuestions > 0 ? Math.round((totalAttempts / totalQuestions) * 100) : 0;
+            
             elements.globalStats.innerHTML = `
                 <div class="stat-card">
                     <div class="stat-value">${totalChapters}</div>
@@ -2297,11 +3256,11 @@
                 </div>
                 ` : ''}
                 <div class="stat-card">
-                    <div class="stat-value">${completedChapters}</div>
-                    <div class="stat-label">已练习章节</div>
+                    <div class="stat-value">${progressPercent}%</div>
+                    <div class="stat-label">刷题进度</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">${avgAccuracy}%</div>
+                    <div class="stat-value">${avgAccuracy || 0}%</div>
                     <div class="stat-label">平均正确率</div>
                 </div>
             `;
@@ -2314,6 +3273,44 @@
                 clearBtn.onclick = clearAllProgress;
                 elements.globalStats.parentElement.appendChild(clearBtn);
             }
+        }
+
+        // 获取章节的已做题数（包括已提交和未提交的）
+        function getChapterAnsweredCount(chapter) {
+            const allStats = getAllChapterStats();
+            let totalAnswered = 0;
+            
+            // 统计已提交的答题数（章节级别）
+            const chapterStat = allStats[chapter];
+            if (chapterStat && chapterStat.answered) {
+                totalAnswered += chapterStat.answered;
+            }
+            
+            // 统计已提交的答题数（小节级别）
+            Object.keys(allStats).forEach(key => {
+                if (key.startsWith(`${chapter}_`)) {
+                    totalAnswered += allStats[key].answered || 0;
+                }
+            });
+            
+            // 统计未提交的答题数（当前进度）
+            // 注意：如果用户提交后继续做题，可能会有重复，但为了显示完整性，我们仍然统计
+            try {
+                const savedProgress = localStorage.getItem(STORAGE_KEY);
+                if (savedProgress) {
+                    const progress = JSON.parse(savedProgress);
+                    if (progress.currentChapter === chapter && progress.answers) {
+                        const uncommittedCount = Object.keys(progress.answers).length;
+                        // 如果当前进度是该章节的，加上未提交的数量
+                        // 即使可能有重复（用户提交后又继续做题），也加上，因为这是用户实际做过的题
+                        totalAnswered += uncommittedCount;
+                    }
+                }
+            } catch (error) {
+                console.warn('读取进度记录失败:', error);
+            }
+            
+            return totalAnswered;
         }
 
         // 渲染章节统计
@@ -2344,19 +3341,33 @@
 
                     // 获取该章节的学习记录
                     const chapterStat = allStats[chapter];
+                    // 获取该章节的总已做题数（包括已提交和未提交的）
+                    const totalAnswered = getChapterAnsweredCount(chapter);
+                    
                     let progressHTML = '';
-                    if (chapterStat) {
-                        const progressPercent = Math.round((chapterStat.answered / total) * 100);
-                        progressHTML = `
-                            <div class="chapter-stat-detail" style="color: var(--accent-secondary);">
-                                <span>📈</span>
-                                <span>进度: ${progressPercent}% (${chapterStat.answered}/${total})</span>
-                            </div>
-                            <div class="chapter-stat-detail" style="color: ${chapterStat.accuracy >= 80 ? 'var(--success)' : chapterStat.accuracy >= 60 ? 'var(--warning)' : 'var(--error)'};">
-                                <span>✓</span>
-                                <span>正确率: ${chapterStat.accuracy}%</span>
-                            </div>
-                        `;
+                    if (chapterStat || totalAnswered > 0) {
+                        if (chapterStat) {
+                            const progressPercent = Math.round((chapterStat.answered / total) * 100);
+                            progressHTML = `
+                                <div class="chapter-stat-detail" style="color: var(--accent-secondary);">
+                                    <span>📈</span>
+                                    <span>进度: ${progressPercent}% (${chapterStat.answered}/${total})</span>
+                                </div>
+                                <div class="chapter-stat-detail" style="color: ${chapterStat.accuracy >= 80 ? 'var(--success)' : chapterStat.accuracy >= 60 ? 'var(--warning)' : 'var(--error)'};">
+                                    <span>✓</span>
+                                    <span>正确率: ${chapterStat.accuracy}%</span>
+                                </div>
+                            `;
+                        }
+                        // 显示已做题数（即使没有完成记录也显示）
+                        if (totalAnswered > 0) {
+                            progressHTML += `
+                                <div class="chapter-stat-detail" style="color: var(--accent-primary);">
+                                    <span>📝</span>
+                                    <span>已做题: ${totalAnswered}题</span>
+                                </div>
+                            `;
+                        }
                     }
 
                     statsHTML += `
@@ -2414,19 +3425,33 @@
 
                     // 获取该章节的学习记录
                     const chapterStat = allStats[chapter];
+                    // 获取该章节的总已做题数（包括已提交和未提交的）
+                    const totalAnswered = getChapterAnsweredCount(chapter);
+                    
                     let progressHTML = '';
-                    if (chapterStat) {
-                        const progressPercent = Math.round((chapterStat.answered / total) * 100);
-                        progressHTML = `
-                            <div class="chapter-stat-detail" style="color: var(--accent-secondary);">
-                                <span>📈</span>
-                                <span>进度: ${progressPercent}% (${chapterStat.answered}/${total})</span>
-                            </div>
-                            <div class="chapter-stat-detail" style="color: ${chapterStat.accuracy >= 80 ? 'var(--success)' : chapterStat.accuracy >= 60 ? 'var(--warning)' : 'var(--error)'};">
-                                <span>✓</span>
-                                <span>正确率: ${chapterStat.accuracy}%</span>
-                            </div>
-                        `;
+                    if (chapterStat || totalAnswered > 0) {
+                        if (chapterStat) {
+                            const progressPercent = Math.round((chapterStat.answered / total) * 100);
+                            progressHTML = `
+                                <div class="chapter-stat-detail" style="color: var(--accent-secondary);">
+                                    <span>📈</span>
+                                    <span>进度: ${progressPercent}% (${chapterStat.answered}/${total})</span>
+                                </div>
+                                <div class="chapter-stat-detail" style="color: ${chapterStat.accuracy >= 80 ? 'var(--success)' : chapterStat.accuracy >= 60 ? 'var(--warning)' : 'var(--error)'};">
+                                    <span>✓</span>
+                                    <span>正确率: ${chapterStat.accuracy}%</span>
+                                </div>
+                            `;
+                        }
+                        // 显示已做题数（即使没有完成记录也显示）
+                        if (totalAnswered > 0) {
+                            progressHTML += `
+                                <div class="chapter-stat-detail" style="color: var(--accent-primary);">
+                                    <span>📝</span>
+                                    <span>已做题: ${totalAnswered}题</span>
+                                </div>
+                            `;
+                        }
                     }
 
                     statsHTML += `
@@ -2475,6 +3500,12 @@
 
         // 绑定事件
         function bindEvents() {
+            // 主题切换
+            const themeToggle = document.getElementById('themeToggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', toggleTheme);
+            }
+            
             // 章节选择
             elements.chapterSelect.addEventListener('change', handleChapterSelect);
             
@@ -2490,11 +3521,15 @@
                     document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                     state.currentMode = btn.dataset.mode;
+                    // 更新按钮显示
+                    updateModeSection();
                 });
             });
 
             // 开始答题
-            elements.startBtn.addEventListener('click', startQuiz);
+            elements.startBtn.addEventListener('click', () => startQuiz(false, false));
+            elements.restartBtn.addEventListener('click', () => startQuiz(false, true));
+            elements.continueBtn.addEventListener('click', () => startQuiz(true, false));
 
             // 导航按钮
             elements.prevBtn.addEventListener('click', () => navigateQuestion(-1));
@@ -2617,6 +3652,9 @@
             state.answers = {};
             state.submitted = false;
             
+            // 重置计时器
+            resetExamTimer();
+            
             // 重置选择器
             elements.chapterSelect.value = '';
             elements.sectionSelect.value = '';
@@ -2629,12 +3667,17 @@
             elements.resultSection.classList.add('hidden');
             elements.bottomNav.classList.add('hidden');
             
+            // 显示顶部导航
+            elements.mainHeader.classList.remove('hidden');
+            
             // 滚动到顶部
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // 开始答题
-        function startQuiz() {
+        // continueProgress: 是否继续之前的进度（true=继续，false=重新开始）
+        // forceRestart: 是否强制重新开始（仅用于重新开始按钮，会清空缓存）
+        function startQuiz(continueProgress = false, forceRestart = false) {
             if (!state.currentChapter) return;
 
             let questions = [...questionBank[state.currentChapter]];
@@ -2652,44 +3695,60 @@
             state.submitted = false;
             state.navExpanded = false;
 
-            // 尝试加载之前的进度
-            const savedProgress = loadProgress();
-            if (savedProgress && 
-                savedProgress.currentChapter === state.currentChapter &&
-                savedProgress.currentSection === state.currentSection) {
-                // 恢复进度
-                state.answers = savedProgress.answers || {};
-                state.currentIndex = savedProgress.currentIndex || 0;
-                // 确保索引有效
-                if (state.currentIndex >= questions.length) {
+            // 考试模式：直接从头开始，不计入缓存
+            if (state.currentMode === 'exam') {
+                state.answers = {};
+                state.currentIndex = 0;
+            } else {
+                // 练习模式
+                if (forceRestart) {
+                    // 重新开始按钮：强制重新开始，清空缓存
+                    state.answers = {};
                     state.currentIndex = 0;
-                }
-                // 询问是否继续
-                if (Object.keys(state.answers).length > 0) {
-                    if (confirm(`检测到之前的刷题记录，是否继续上次的进度？\n已答题：${Object.keys(state.answers).length}/${questions.length}`)) {
-                        // 继续上次进度
+                    // 清除该章节的缓存
+                    localStorage.removeItem(STORAGE_KEY);
+                } else if (continueProgress) {
+                    // 继续答题按钮：加载之前的进度
+                    const savedProgress = loadProgress();
+                    if (savedProgress && 
+                        savedProgress.currentChapter === state.currentChapter &&
+                        savedProgress.currentSection === state.currentSection) {
+                        // 恢复进度
+                        state.answers = savedProgress.answers || {};
+                        state.currentIndex = savedProgress.currentIndex || 0;
+                        // 确保索引有效
+                        if (state.currentIndex >= questions.length) {
+                            state.currentIndex = 0;
+                        }
                     } else {
-                        // 重新开始
+                        // 没有保存的进度，从头开始
                         state.answers = {};
                         state.currentIndex = 0;
                     }
+                } else {
+                    // 开始答题按钮（没有缓存时）：从头开始
+                    state.answers = {};
+                    state.currentIndex = 0;
                 }
-            } else {
-                // 没有保存的进度，从头开始
-                state.answers = {};
-                state.currentIndex = 0;
             }
 
             elements.modeSection.classList.add('hidden');
             elements.questionSection.classList.remove('hidden');
             elements.bottomNav.classList.remove('hidden');
+            
+            // 隐藏顶部导航，沉浸式做题
+            elements.mainHeader.classList.add('hidden');
 
             if (state.currentMode === 'exam') {
                 elements.submitBtn.classList.remove('hidden');
                 elements.nextBtn.style.maxWidth = '120px';
+                // 考试模式启动计时器
+                startExamTimer();
             } else {
                 elements.submitBtn.classList.add('hidden');
                 elements.nextBtn.style.maxWidth = '160px';
+                // 练习模式隐藏计时器
+                resetExamTimer();
             }
 
             renderQuestion();
@@ -2800,6 +3859,57 @@
             if (state.submitted) {
                 elements.bottomNav.classList.add('hidden');
             }
+        }
+
+        // ========== 考试计时器功能 ==========
+        
+        // 格式化时间显示 (秒 -> MM:SS 或 HH:MM:SS)
+        function formatTime(totalSeconds) {
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+            
+            if (hours > 0) {
+                return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+            return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // 启动考试计时器
+        function startExamTimer() {
+            state.examStartTime = Date.now();
+            state.examElapsedTime = 0;
+            
+            // 显示计时器
+            elements.examTimer.classList.remove('hidden');
+            elements.timerValue.textContent = '00:00';
+            
+            // 每秒更新计时器
+            state.examTimerInterval = setInterval(() => {
+                state.examElapsedTime = Math.floor((Date.now() - state.examStartTime) / 1000);
+                elements.timerValue.textContent = formatTime(state.examElapsedTime);
+            }, 1000);
+        }
+
+        // 停止考试计时器
+        function stopExamTimer() {
+            if (state.examTimerInterval) {
+                clearInterval(state.examTimerInterval);
+                state.examTimerInterval = null;
+            }
+            // 计算最终用时
+            if (state.examStartTime) {
+                state.examElapsedTime = Math.floor((Date.now() - state.examStartTime) / 1000);
+            }
+        }
+
+        // 重置考试计时器
+        function resetExamTimer() {
+            stopExamTimer();
+            state.examStartTime = null;
+            state.examElapsedTime = 0;
+            elements.examTimer.classList.add('hidden');
+            elements.timerValue.textContent = '00:00';
         }
 
         // 渲染快速导航（优化：支持大量题目，使用虚拟滚动）
@@ -2923,6 +4033,10 @@
         // 提交考试
         function submitExam() {
             state.submitted = true;
+            
+            // 停止计时器并获取用时
+            stopExamTimer();
+            const examDuration = state.examElapsedTime;
 
             const total = state.questions.length;
             const answered = Object.keys(state.answers).length;
@@ -2934,7 +4048,7 @@
 
             const accuracy = Math.round((correct / total) * 100);
 
-            // 保存章节统计信息
+            // 保存章节统计信息（包含用时）
             const stats = {
                 total: total,
                 answered: answered,
@@ -2942,6 +4056,7 @@
                 wrong: total - correct,
                 accuracy: accuracy,
                 mode: state.currentMode,
+                duration: examDuration, // 考试用时（秒）
                 submitTime: new Date().toISOString()
             };
             saveChapterStats(state.currentChapter, state.currentSection, stats);
@@ -2949,10 +4064,13 @@
             // 清除当前进度（已提交）
             localStorage.removeItem(STORAGE_KEY);
 
-            // 隐藏题目区域
+            // 隐藏题目区域，显示结果
             elements.questionSection.classList.add('hidden');
             elements.bottomNav.classList.add('hidden');
             elements.resultSection.classList.remove('hidden');
+            
+            // 显示顶部导航
+            elements.mainHeader.classList.remove('hidden');
 
             // 动画显示分数
             const circumference = 2 * Math.PI * 78;
@@ -2963,7 +4081,14 @@
                 elements.scoreValue.textContent = accuracy;
             }, 100);
 
-            // 统计信息
+            // 统计信息（考试模式显示用时）
+            const durationHTML = state.currentMode === 'exam' && examDuration > 0 ? `
+                <div class="result-stat">
+                    <div class="result-stat-value" style="color: var(--warning)">${formatTime(examDuration)}</div>
+                    <div class="result-stat-label">用时</div>
+                </div>
+            ` : '';
+            
             elements.resultStats.innerHTML = `
                 <div class="result-stat">
                     <div class="result-stat-value">${total}</div>
@@ -2981,6 +4106,7 @@
                     <div class="result-stat-value" style="color: var(--error)">${total - correct}</div>
                     <div class="result-stat-label">错误数</div>
                 </div>
+                ${durationHTML}
             `;
 
             // 答题卡
