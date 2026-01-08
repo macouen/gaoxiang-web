@@ -617,8 +617,9 @@
             height: 0;
             border-radius: 50%;
             background: var(--accent-glow);
+            opacity: 0.3;
             transform: translate(-50%, -50%);
-            transition: width 0.6s ease, height 0.6s ease;
+            transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
         }
 
         .mode-btn:hover {
@@ -629,8 +630,8 @@
         }
 
         .mode-btn:hover::before {
-            width: 300px;
-            height: 300px;
+            width: 150px;
+            height: 150px;
         }
 
         .mode-btn.active {
@@ -642,8 +643,9 @@
         }
 
         .mode-btn.active::before {
-            width: 300px;
-            height: 300px;
+            width: 120px;
+            height: 120px;
+            opacity: 0.2;
         }
 
         .mode-btn .icon {
@@ -889,124 +891,6 @@
             100% { transform: translateX(100%); }
         }
 
-        /* 快速导航 */
-        .quick-nav {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 12px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), padding 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            align-content: flex-start;
-            opacity: 0;
-        }
-
-        .quick-nav.expanded {
-            max-height: 400px;
-            min-height: 100px;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding: 12px 6px;
-            opacity: 1;
-            /* 自定义滚动条样式 */
-            scrollbar-width: thin;
-            scrollbar-color: var(--accent-primary) var(--bg-secondary);
-            /* 确保可以滚动 */
-            -webkit-overflow-scrolling: touch;
-            /* 确保内容可以滚动 */
-            will-change: scroll-position;
-        }
-
-        /* 快速导航中的分页信息 */
-        .quick-nav > div[style*="width: 100%"] {
-            width: 100% !important;
-            grid-column: 1 / -1;
-            padding: 8px 0;
-            border-top: 1px solid var(--border-color);
-            margin-top: 8px;
-        }
-
-        .quick-nav.expanded::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .quick-nav.expanded::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
-            border-radius: 4px;
-        }
-
-        .quick-nav.expanded::-webkit-scrollbar-thumb {
-            background: var(--accent-primary);
-            border-radius: 4px;
-        }
-
-        .quick-nav.expanded::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-secondary);
-        }
-
-        .quick-nav-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border-color);
-            background: var(--bg-secondary);
-            color: var(--text-secondary);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .quick-nav-btn:hover {
-            border-color: var(--accent-primary);
-            color: var(--text-primary);
-            transform: translateY(-2px) scale(1.1);
-            box-shadow: var(--shadow-md);
-        }
-
-        .quick-nav-btn.current {
-            background: var(--accent-primary);
-            border-color: var(--accent-primary);
-            color: white;
-        }
-
-        .quick-nav-btn.answered {
-            background: var(--success-bg);
-            border-color: var(--success);
-            color: var(--success);
-        }
-
-        .quick-nav-btn.wrong {
-            background: var(--error-bg);
-            border-color: var(--error);
-            color: var(--error);
-        }
-
-        .quick-nav-btn.incomplete {
-            background: rgba(245, 158, 11, 0.15);
-            border-color: var(--warning);
-            color: var(--warning);
-            position: relative;
-        }
-
-        .quick-nav-btn.incomplete::after {
-            content: '!';
-            position: absolute;
-            top: -4px;
-            right: -4px;
-            width: 12px;
-            height: 12px;
-            background: var(--warning);
-            color: var(--bg-primary);
-            border-radius: 50%;
-            font-size: 9px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
 
         /* 不完整题目标记 */
         .incomplete-badge {
@@ -1026,19 +910,175 @@
             content: '⚠';
         }
 
-        .toggle-nav-btn {
-            background: none;
+        /* 答题卡按钮 */
+        .answer-sheet-btn {
+            background: var(--accent-primary);
             border: none;
-            color: var(--accent-secondary);
+            color: white;
             font-size: 0.85rem;
             cursor: pointer;
-            padding: 4px 8px;
+            padding: 6px 12px;
             border-radius: var(--radius-sm);
             transition: var(--transition);
+            font-weight: 500;
+            box-shadow: var(--shadow-sm);
         }
 
-        .toggle-nav-btn:hover {
+        .answer-sheet-btn:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* 答题卡模态框 */
+        .answer-sheet-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .answer-sheet-modal:not(.hidden) {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .answer-sheet-modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        .answer-sheet-modal-content {
+            position: relative;
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            max-width: 90vw;
+            max-height: 90vh;
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .answer-sheet-modal:not(.hidden) .answer-sheet-modal-content {
+            transform: scale(1);
+        }
+
+        .answer-sheet-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .answer-sheet-modal-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .answer-sheet-modal-close {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            line-height: 1;
+        }
+
+        .answer-sheet-modal-close:hover {
             background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .answer-sheet-modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .answer-sheet-modal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            gap: 12px;
+        }
+
+        .answer-sheet-modal-item {
+            aspect-ratio: 1;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid var(--border-color);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .answer-sheet-modal-item:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        .answer-sheet-modal-item.current {
+            border-color: var(--accent-primary);
+            background: var(--accent-primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        .answer-sheet-modal-item.answered {
+            background: var(--success-bg);
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .answer-sheet-modal-item.correct {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .answer-sheet-modal-item.incorrect {
+            background: var(--error);
+            border-color: var(--error);
+            color: white;
+        }
+
+        .answer-sheet-modal-item.unanswered {
+            background: var(--bg-secondary);
+            border-color: var(--border-color);
+            color: var(--text-muted);
         }
 
         /* 考试计时器 */
@@ -1997,6 +2037,7 @@
             .progress-bar {
                 padding: 12px 14px;
                 margin-bottom: 12px;
+                border-radius: var(--radius-md) !important;
             }
 
             .progress-header {
@@ -2022,6 +2063,39 @@
                 min-width: 45px;
             }
 
+            /* 答题卡按钮 - 移动端 */
+            .answer-sheet-btn {
+                padding: 4px 8px;
+                font-size: 0.8rem;
+            }
+
+            /* 答题卡模态框 - 移动端 */
+            .answer-sheet-modal-content {
+                max-width: 95vw;
+                max-height: 90vh;
+            }
+
+            .answer-sheet-modal-header {
+                padding: 16px 20px;
+            }
+
+            .answer-sheet-modal-header h3 {
+                font-size: 1.1rem;
+            }
+
+            .answer-sheet-modal-body {
+                padding: 16px;
+            }
+
+            .answer-sheet-modal-grid {
+                grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+                gap: 8px;
+            }
+
+            .answer-sheet-modal-item {
+                font-size: 0.85rem;
+            }
+
             /* 底部导航 - 紧凑布局 */
             .bottom-nav {
                 padding: 8px 10px;
@@ -2036,7 +2110,9 @@
                 padding: 10px 12px;
                 font-size: 0.85rem;
                 max-width: none;
-                border-radius: var(--radius-sm);
+                border-radius: 8px;
+                flex: 1;
+                min-width: 0;
             }
 
             .nav-btn .icon {
@@ -2157,15 +2233,6 @@
                 padding: 10px 12px;
             }
 
-            .quick-nav-btn {
-                width: 28px;
-                height: 28px;
-                font-size: 0.7rem;
-            }
-
-            .quick-nav.expanded {
-                max-height: 280px;
-            }
 
             .chapter-stats-list {
                 max-height: 350px;
@@ -2185,6 +2252,9 @@
             .nav-btn {
                 padding: 8px 10px;
                 font-size: 0.8rem;
+                border-radius: 8px;
+                flex: 1;
+                min-width: 0;
             }
 
             .result-card {
@@ -2334,14 +2404,13 @@
                                 <span class="timer-icon">⏱️</span>
                                 <span class="timer-value" id="timerValue">00:00</span>
                             </div>
-                            <button class="toggle-nav-btn" id="toggleNavBtn">展开导航</button>
+                            <button class="answer-sheet-btn" id="answerSheetBtn" title="答题卡">📋 答题卡</button>
                             <button class="home-btn" onclick="goHome()" title="返回首页" style="width: 36px; height: 36px; font-size: 1rem; padding: 0;">🏠</button>
                         </div>
                     </div>
                     <div class="progress-track">
                         <div class="progress-fill" id="progressFill" style="width: 10%"></div>
                     </div>
-                    <div class="quick-nav" id="quickNav"></div>
                 </div>
 
                 <!-- 题目卡片 -->
@@ -2398,6 +2467,20 @@
                 </button>
             </div>
         </nav>
+
+        <!-- 答题卡模态框 -->
+        <div class="answer-sheet-modal hidden" id="answerSheetModal">
+            <div class="answer-sheet-modal-overlay" id="answerSheetModalOverlay"></div>
+            <div class="answer-sheet-modal-content">
+                <div class="answer-sheet-modal-header">
+                    <h3>📋 答题卡</h3>
+                    <button class="answer-sheet-modal-close" id="answerSheetModalClose">×</button>
+                </div>
+                <div class="answer-sheet-modal-body" id="answerSheetModalBody">
+                    <!-- 动态生成答题卡内容 -->
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -2787,7 +2870,6 @@
             currentIndex: 0,
             answers: {},
             submitted: false,
-            navExpanded: false,
             // 考试计时相关
             examStartTime: null,
             examElapsedTime: 0,
@@ -3037,8 +3119,11 @@
             continueBtn: document.getElementById('continueBtn'),
             progressText: document.getElementById('progressText'),
             progressFill: document.getElementById('progressFill'),
-            quickNav: document.getElementById('quickNav'),
-            toggleNavBtn: document.getElementById('toggleNavBtn'),
+            answerSheetBtn: document.getElementById('answerSheetBtn'),
+            answerSheetModal: document.getElementById('answerSheetModal'),
+            answerSheetModalOverlay: document.getElementById('answerSheetModalOverlay'),
+            answerSheetModalClose: document.getElementById('answerSheetModalClose'),
+            answerSheetModalBody: document.getElementById('answerSheetModalBody'),
             questionCard: document.getElementById('questionCard'),
             prevBtn: document.getElementById('prevBtn'),
             nextBtn: document.getElementById('nextBtn'),
@@ -3537,8 +3622,10 @@
             elements.submitBtn.addEventListener('click', handleSubmit);
             elements.backBtn.addEventListener('click', goHome);
 
-            // 快速导航切换
-            elements.toggleNavBtn.addEventListener('click', toggleQuickNav);
+            // 答题卡按钮
+            elements.answerSheetBtn.addEventListener('click', showAnswerSheet);
+            elements.answerSheetModalOverlay.addEventListener('click', hideAnswerSheet);
+            elements.answerSheetModalClose.addEventListener('click', hideAnswerSheet);
         }
 
         // 处理章节选择
@@ -3670,6 +3757,10 @@
             // 显示顶部导航
             elements.mainHeader.classList.remove('hidden');
             
+            // 刷新首页统计数据（实时更新进度）
+            renderGlobalStats();
+            renderChapterStats();
+            
             // 滚动到顶部
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -3693,7 +3784,6 @@
             
             state.questions = questions;
             state.submitted = false;
-            state.navExpanded = false;
 
             // 考试模式：直接从头开始，不计入缓存
             if (state.currentMode === 'exam') {
@@ -3753,7 +3843,6 @@
 
             renderQuestion();
             updateProgress();
-            renderQuickNav();
         }
 
         // 渲染题目
@@ -3819,7 +3908,11 @@
             saveProgress();
 
             renderQuestion();
-            renderQuickNav();
+            
+            // 如果答题卡是打开的，实时更新答题卡（练习模式下）
+            if (!elements.answerSheetModal.classList.contains('hidden') && state.currentMode === 'practice') {
+                renderAnswerSheet();
+            }
         };
 
         // 导航题目
@@ -3830,7 +3923,6 @@
                 saveProgress(); // 保存当前进度
                 renderQuestion();
                 updateProgress();
-                renderQuickNav();
             }
         }
 
@@ -3912,108 +4004,109 @@
             elements.timerValue.textContent = '00:00';
         }
 
-        // 渲染快速导航（优化：支持大量题目，使用虚拟滚动）
-        function renderQuickNav() {
-            const total = state.questions.length;
-            const currentIdx = state.currentIndex;
-            
-            // 如果题目数量超过100，使用分页显示
-            if (total > 100) {
-                const pageSize = 50;
-                const currentPage = Math.floor(currentIdx / pageSize);
-                const startIdx = Math.max(0, currentPage * pageSize - pageSize);
-                const endIdx = Math.min(total, (currentPage + 1) * pageSize + pageSize);
-                
-                let navHTML = '';
-                
-                // 显示第一页按钮
-                if (currentPage > 0) {
-                    navHTML += `<button class="quick-nav-btn" onclick="jumpToQuestion(0)" title="第一页">«</button>`;
-                    navHTML += `<button class="quick-nav-btn" onclick="jumpToQuestion(${Math.max(0, startIdx - pageSize)})" title="上一页">‹</button>`;
-                }
-                
-                // 显示当前范围的题目
-                for (let idx = startIdx; idx < endIdx; idx++) {
-                    const q = state.questions[idx];
-                    let classes = ['quick-nav-btn'];
-                    // 检查题目是否不完整
-                    if (isQuestionIncomplete(q)) classes.push('incomplete');
-                    if (idx === currentIdx) classes.push('current');
-                    else if (state.answers[q.id]) {
-                        if (state.submitted && state.answers[q.id] !== q.answer) {
-                            classes.push('wrong');
-                        } else {
-                            classes.push('answered');
-                        }
-                    }
-                    const titleText = isQuestionIncomplete(q) ? `第${idx + 1}题 (不完整)` : `第${idx + 1}题`;
-                    navHTML += `<button class="${classes.join(' ')}" onclick="jumpToQuestion(${idx})" title="${titleText}">${idx + 1}</button>`;
-                }
-                
-                // 显示最后一页按钮
-                if (currentPage < Math.floor((total - 1) / pageSize)) {
-                    navHTML += `<button class="quick-nav-btn" onclick="jumpToQuestion(${Math.min(total - 1, endIdx)})" title="下一页">›</button>`;
-                    navHTML += `<button class="quick-nav-btn" onclick="jumpToQuestion(${total - 1})" title="最后一页">»</button>`;
-                }
-                
-                // 显示页码信息
-                navHTML += `<div style="width: 100%; text-align: center; color: var(--text-muted); font-size: 0.8rem; margin-top: 8px; padding: 8px 0; border-top: 1px solid var(--border-color);">
-                    第 ${currentPage + 1} 页 / 共 ${Math.ceil(total / pageSize)} 页 (显示 ${startIdx + 1}-${endIdx} / 共 ${total} 题)
-                </div>`;
-                
-                elements.quickNav.innerHTML = navHTML;
-            } else {
-                // 题目数量较少，全部显示
-                elements.quickNav.innerHTML = state.questions.map((q, idx) => {
-                    let classes = ['quick-nav-btn'];
-                    // 检查题目是否不完整
-                    if (isQuestionIncomplete(q)) classes.push('incomplete');
-                    if (idx === currentIdx) classes.push('current');
-                    else if (state.answers[q.id]) {
-                        if (state.submitted && state.answers[q.id] !== q.answer) {
-                            classes.push('wrong');
-                        } else {
-                            classes.push('answered');
-                        }
-                    }
-                    const titleText = isQuestionIncomplete(q) ? `第${idx + 1}题 (不完整)` : `第${idx + 1}题`;
-                    return `<button class="${classes.join(' ')}" onclick="jumpToQuestion(${idx})" title="${titleText}">${idx + 1}</button>`;
-                }).join('');
-            }
-            
-            // 滚动到当前题目
-            setTimeout(() => {
-                const currentBtn = elements.quickNav.querySelector('.current');
-                if (currentBtn) {
-                    currentBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-                }
-            }, 100);
-        }
-
-        // 跳转到指定题目
+        // 跳转到指定题目（保留用于其他地方的调用）
         window.jumpToQuestion = function(index) {
             state.currentIndex = index;
             saveProgress(); // 保存进度
             renderQuestion();
             updateProgress();
-            renderQuickNav();
         };
 
-        // 切换快速导航展开状态
-        function toggleQuickNav() {
-            state.navExpanded = !state.navExpanded;
-            elements.quickNav.classList.toggle('expanded', state.navExpanded);
-            elements.toggleNavBtn.textContent = state.navExpanded ? '收起导航' : '展开导航';
+        // 显示答题卡
+        function showAnswerSheet() {
+            renderAnswerSheet();
+            elements.answerSheetModal.classList.remove('hidden');
+        }
+
+        // 隐藏答题卡
+        function hideAnswerSheet() {
+            elements.answerSheetModal.classList.add('hidden');
+        }
+
+        // 渲染答题卡
+        function renderAnswerSheet() {
+            const total = state.questions.length;
+            const currentIdx = state.currentIndex;
+            const isPracticeMode = state.currentMode === 'practice';
             
-            // 展开时滚动到当前题目
-            if (state.navExpanded) {
-                setTimeout(() => {
-                    const currentBtn = elements.quickNav.querySelector('.current');
-                    if (currentBtn) {
-                        currentBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            let sheetHTML = '';
+            
+            // 练习模式下实时显示正确/错误统计
+            if (isPracticeMode) {
+                let correctCount = 0;
+                let incorrectCount = 0;
+                let unansweredCount = 0;
+                
+                state.questions.forEach(q => {
+                    const userAns = state.answers[q.id];
+                    if (!userAns) {
+                        unansweredCount++;
+                    } else if (userAns === q.answer) {
+                        correctCount++;
+                    } else {
+                        incorrectCount++;
                     }
-                }, 300);
+                });
+                
+                sheetHTML += `<div style="margin-bottom: 16px; padding: 12px; background: var(--bg-secondary); border-radius: var(--radius-md); display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="display: inline-block; width: 16px; height: 16px; background: var(--success); border-radius: 4px;"></span>
+                        <span style="font-size: 0.9rem;">正确: ${correctCount}</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="display: inline-block; width: 16px; height: 16px; background: var(--error); border-radius: 4px;"></span>
+                        <span style="font-size: 0.9rem;">错误: ${incorrectCount}</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="display: inline-block; width: 16px; height: 16px; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 4px;"></span>
+                        <span style="font-size: 0.9rem;">未答: ${unansweredCount}</span>
+                    </div>
+                </div>`;
             }
+            
+            sheetHTML += '<div class="answer-sheet-modal-grid">';
+            
+            state.questions.forEach((q, idx) => {
+                const userAns = state.answers[q.id];
+                let classes = ['answer-sheet-modal-item'];
+                
+                if (idx === currentIdx) {
+                    classes.push('current');
+                }
+                
+                if (isPracticeMode) {
+                    // 练习模式：实时显示正确/错误/未答
+                    if (!userAns) {
+                        classes.push('unanswered');
+                    } else if (userAns === q.answer) {
+                        classes.push('correct');
+                    } else {
+                        classes.push('incorrect');
+                    }
+                } else {
+                    // 考试模式：只显示已答/未答
+                    if (userAns) {
+                        classes.push('answered');
+                    } else {
+                        classes.push('unanswered');
+                    }
+                }
+                
+                sheetHTML += `<div class="${classes.join(' ')}" onclick="jumpToQuestionFromSheet(${idx})" title="第${idx + 1}题">${idx + 1}</div>`;
+            });
+            
+            sheetHTML += '</div>';
+            
+            elements.answerSheetModalBody.innerHTML = sheetHTML;
+        }
+
+        // 从答题卡跳转到题目
+        window.jumpToQuestionFromSheet = function(index) {
+            state.currentIndex = index;
+            saveProgress();
+            renderQuestion();
+            updateProgress();
+            hideAnswerSheet();
         }
 
         // 提交答卷
@@ -4151,7 +4244,6 @@
             elements.questionSection.classList.remove('hidden');
             renderQuestion();
             updateProgress();
-            renderQuickNav();
         };
 
         // 页面加载完成后加载题库
