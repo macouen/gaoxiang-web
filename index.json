@@ -1,0 +1,334 @@
+{
+  "totalQuestions": 2772,
+  "totalChapters": 24,
+  "chapters": [
+    {
+      "chapterNum": 1,
+      "name": "第1章：信息化发展",
+      "filename": "chapter_1.json",
+      "totalQuestions": 132,
+      "completeQuestions": 132,
+      "sections": [
+        "1.1",
+        "1.2",
+        "1.3",
+        "1.4",
+        "1.5"
+      ]
+    },
+    {
+      "chapterNum": 2,
+      "name": "第2章：信息技术发展",
+      "filename": "chapter_2.json",
+      "totalQuestions": 112,
+      "completeQuestions": 112,
+      "sections": [
+        "2.1",
+        "2.2"
+      ]
+    },
+    {
+      "chapterNum": 3,
+      "name": "第3章：信息系统治理",
+      "filename": "chapter_3.json",
+      "totalQuestions": 111,
+      "completeQuestions": 111,
+      "sections": [
+        "3.1",
+        "3.2"
+      ]
+    },
+    {
+      "chapterNum": 4,
+      "name": "第4章：信息系统管理",
+      "filename": "chapter_4.json",
+      "totalQuestions": 100,
+      "completeQuestions": 100,
+      "sections": [
+        "4.1",
+        "4.2"
+      ]
+    },
+    {
+      "chapterNum": 5,
+      "name": "第5章：信息系统工程",
+      "filename": "chapter_5.json",
+      "totalQuestions": 188,
+      "completeQuestions": 188,
+      "sections": [
+        "5.1",
+        "5.2",
+        "5.3",
+        "5.4"
+      ]
+    },
+    {
+      "chapterNum": 6,
+      "name": "第6章：项目管理概论",
+      "filename": "chapter_6.json",
+      "totalQuestions": 127,
+      "completeQuestions": 127,
+      "sections": [
+        "6.2",
+        "6.3",
+        "6.4"
+      ]
+    },
+    {
+      "chapterNum": 7,
+      "name": "第7章：项目立项管理",
+      "filename": "chapter_7.json",
+      "totalQuestions": 67,
+      "completeQuestions": 67,
+      "sections": [
+        "7.1",
+        "7.2",
+        "7.3"
+      ]
+    },
+    {
+      "chapterNum": 8,
+      "name": "第8章：项目整合管理",
+      "filename": "chapter_8.json",
+      "totalQuestions": 148,
+      "completeQuestions": 148,
+      "sections": [
+        "8.1",
+        "8.2",
+        "8.3",
+        "8.4",
+        "8.5",
+        "8.6",
+        "8.7",
+        "8.8",
+        "8.9"
+      ]
+    },
+    {
+      "chapterNum": 9,
+      "name": "第9章：项目范围管理",
+      "filename": "chapter_9.json",
+      "totalQuestions": 131,
+      "completeQuestions": 131,
+      "sections": [
+        "9.1",
+        "9.2",
+        "9.3",
+        "9.4",
+        "9.5",
+        "9.6",
+        "9.7",
+        "9.8"
+      ]
+    },
+    {
+      "chapterNum": 10,
+      "name": "第10章：项目进度管理",
+      "filename": "chapter_10.json",
+      "totalQuestions": 106,
+      "completeQuestions": 106,
+      "sections": [
+        "10.1",
+        "10.2",
+        "10.3",
+        "10.4",
+        "10.5",
+        "10.6",
+        "10.7",
+        "10.8"
+      ]
+    },
+    {
+      "chapterNum": 11,
+      "name": "第11章：项目成本管理",
+      "filename": "chapter_11.json",
+      "totalQuestions": 104,
+      "completeQuestions": 104,
+      "sections": [
+        "11.1",
+        "11.2",
+        "11.3",
+        "11.4",
+        "11.5",
+        "11.6"
+      ]
+    },
+    {
+      "chapterNum": 12,
+      "name": "第12章：项日质量管理",
+      "filename": "chapter_12.json",
+      "totalQuestions": 134,
+      "completeQuestions": 134,
+      "sections": [
+        "12.1",
+        "12.2",
+        "12.3",
+        "12.4",
+        "12.5"
+      ]
+    },
+    {
+      "chapterNum": 13,
+      "name": "第13章：项目资源管理",
+      "filename": "chapter_13.json",
+      "totalQuestions": 154,
+      "completeQuestions": 154,
+      "sections": [
+        "13.1",
+        "13.2",
+        "13.3",
+        "13.4",
+        "13.5",
+        "13.6",
+        "13.7",
+        "13.8"
+      ]
+    },
+    {
+      "chapterNum": 14,
+      "name": "第14章：项目沟通管理",
+      "filename": "chapter_14.json",
+      "totalQuestions": 111,
+      "completeQuestions": 111,
+      "sections": [
+        "14.1",
+        "14.2",
+        "14.3",
+        "14.4",
+        "14.5"
+      ]
+    },
+    {
+      "chapterNum": 15,
+      "name": "第15章：项日风险管理",
+      "filename": "chapter_15.json",
+      "totalQuestions": 124,
+      "completeQuestions": 124,
+      "sections": [
+        "15.1",
+        "15.2",
+        "15.3",
+        "15.4",
+        "15.5",
+        "15.6",
+        "15.7",
+        "15.8",
+        "15.9"
+      ]
+    },
+    {
+      "chapterNum": 16,
+      "name": "第16章：项目采购管理",
+      "filename": "chapter_16.json",
+      "totalQuestions": 114,
+      "completeQuestions": 114,
+      "sections": [
+        "16.1",
+        "16.2",
+        "16.3",
+        "16.4",
+        "16.5",
+        "16.6"
+      ]
+    },
+    {
+      "chapterNum": 17,
+      "name": "第17章：项目干系人管理",
+      "filename": "chapter_17.json",
+      "totalQuestions": 106,
+      "completeQuestions": 106,
+      "sections": [
+        "17.1",
+        "17.2",
+        "17.3",
+        "17.4",
+        "17.5",
+        "17.6"
+      ]
+    },
+    {
+      "chapterNum": 18,
+      "name": "第18章：项目绩效域",
+      "filename": "chapter_18.json",
+      "totalQuestions": 146,
+      "completeQuestions": 146,
+      "sections": [
+        "18.1",
+        "18.2",
+        "18.3",
+        "18.4",
+        "18.5",
+        "18.6",
+        "18.7",
+        "18.8"
+      ]
+    },
+    {
+      "chapterNum": 19,
+      "name": "第19章：配置与变更管理",
+      "filename": "chapter_19.json",
+      "totalQuestions": 119,
+      "completeQuestions": 119,
+      "sections": [
+        "19.1",
+        "19.2",
+        "19.3"
+      ]
+    },
+    {
+      "chapterNum": 20,
+      "name": "第20章：高级项目管理",
+      "filename": "chapter_20.json",
+      "totalQuestions": 104,
+      "completeQuestions": 104,
+      "sections": [
+        "20.1",
+        "20.2",
+        "20.3",
+        "20.4",
+        "20.5"
+      ]
+    },
+    {
+      "chapterNum": 22,
+      "name": "第22章：组织通用治理",
+      "filename": "chapter_22.json",
+      "totalQuestions": 90,
+      "completeQuestions": 90,
+      "sections": [
+        "22.1",
+        "22.2",
+        "22.3"
+      ]
+    },
+    {
+      "chapterNum": 23,
+      "name": "第23章：组织通用管理",
+      "filename": "chapter_23.json",
+      "totalQuestions": 116,
+      "completeQuestions": 116,
+      "sections": [
+        "23.1",
+        "23.2",
+        "23.3",
+        "23.4"
+      ]
+    },
+    {
+      "chapterNum": 24,
+      "name": "第24章：法律法规与标准规范",
+      "filename": "chapter_24.json",
+      "totalQuestions": 42,
+      "completeQuestions": 42,
+      "sections": []
+    },
+    {
+      "chapterNum": 25,
+      "name": "第25章：英语",
+      "filename": "chapter_25.json",
+      "totalQuestions": 86,
+      "completeQuestions": 86,
+      "sections": []
+    }
+  ]
+}
