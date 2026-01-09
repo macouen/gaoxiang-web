@@ -1240,17 +1240,6 @@
             transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .option-item:hover:not(.disabled) {
-            background: var(--bg-card-hover);
-            border-color: var(--accent-primary);
-            transform: translateX(4px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .option-item:hover:not(.disabled)::before {
-            transform: scaleY(1);
-        }
-
         .option-item.selected {
             background: rgba(99, 102, 241, 0.15);
             border-color: var(--accent-primary);
@@ -1848,6 +1837,68 @@
             background: var(--bg-card);
         }
 
+        /* 快速入口部分 */
+        .quick-entry-section {
+            margin-top: 24px;
+            background: linear-gradient(135deg, var(--accent-glow) 0%, rgba(139, 92, 246, 0.08) 100%);
+            border: 1px solid var(--accent-glow-strong);
+            border-radius: var(--radius-xl);
+            padding: 20px;
+            animation: fadeInUp 0.5s ease 0.1s both;
+        }
+
+        .quick-entry-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent-secondary);
+        }
+
+        .quick-entry-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .quick-entry-item {
+            background: var(--bg-card-hover);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .quick-entry-item:hover {
+            border-color: var(--accent-primary);
+            background: var(--bg-card);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .quick-entry-item-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        .quick-entry-item-count {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
         /* 加载状态 */
         .loading-section {
             text-align: center;
@@ -2358,7 +2409,16 @@
                 <h1 class="welcome-title">软考高项智能刷题</h1>
                 <p class="welcome-subtitle">选择章节，开启高效学习之旅</p>
                 <div class="stats-grid" id="globalStats"></div>
-                
+
+                <!-- 快速入口：最近做题的章节 -->
+                <div class="quick-entry-section hidden" id="quickEntrySection">
+                    <div class="quick-entry-title">
+                        <span>⚡</span>
+                        <span>继续学习</span>
+                    </div>
+                    <div class="quick-entry-list" id="quickEntryList"></div>
+                </div>
+
                 <!-- 章节统计信息 -->
                 <div class="chapter-stats-section" id="chapterStatsSection"></div>
             </div>
@@ -2944,28 +3004,50 @@
             return null;
         }
 
-        // 保存章节统计信息
+        // 保存章节统计信息（保持历史记录）
         function saveChapterStats(chapter, section, stats) {
             try {
                 const key = section ? `${chapter}_${section}` : chapter;
                 const allStats = JSON.parse(localStorage.getItem('chapter_stats') || '{}');
-                allStats[key] = {
+
+                // 如果该key的值是对象而不是数组，则进行迁移
+                if (allStats[key] && !Array.isArray(allStats[key])) {
+                    allStats[key] = [allStats[key]];
+                }
+
+                // 初始化为数组（如果不存在）
+                if (!allStats[key]) {
+                    allStats[key] = [];
+                }
+
+                // 添加新记录到历史
+                const newRecord = {
                     ...stats,
                     lastUpdate: new Date().toISOString(),
                     timestamp: Date.now()
                 };
+                allStats[key].push(newRecord);
+
                 localStorage.setItem('chapter_stats', JSON.stringify(allStats));
             } catch (error) {
                 console.warn('保存章节统计失败:', error);
             }
         }
 
-        // 加载章节统计信息
+        // 加载章节统计信息（返回最新记录）
         function loadChapterStats(chapter, section) {
             try {
                 const key = section ? `${chapter}_${section}` : chapter;
                 const allStats = JSON.parse(localStorage.getItem('chapter_stats') || '{}');
-                return allStats[key] || null;
+                const chapterData = allStats[key];
+
+                // 如果是数组，返回最后一条记录
+                if (Array.isArray(chapterData)) {
+                    return chapterData.length > 0 ? chapterData[chapterData.length - 1] : null;
+                }
+
+                // 兼容旧数据格式（对象）
+                return chapterData || null;
             } catch (error) {
                 console.warn('加载章节统计失败:', error);
             }
@@ -3029,11 +3111,12 @@
             } catch (error) {
                 console.warn('清除进度失败:', error);
             }
-            
+
             // 重新渲染统计
             renderChapterStats();
             renderGlobalStats();
-            
+            renderQuickEntry();
+
             // 如果当前选中的是被清除的章节，更新模式选择区域
             if (state.currentChapter === chapter) {
                 updateModeSection();
@@ -3148,10 +3231,11 @@
                 if (!hasChapterIndex && !hasQuestionBank) {
                     throw new Error('题库数据为空');
                 }
-                
+
                 populateChapterSelect();
                 renderGlobalStats();
                 renderChapterStats();
+                renderQuickEntry();
                 
                 elements.loadingSection.classList.add('hidden');
                 elements.welcomeSection.classList.remove('hidden');
@@ -3310,9 +3394,23 @@
             // 计算学习进度
             const allStats = getAllChapterStats();
             const completedChapters = Object.keys(allStats).length;
-            const totalAttempts = Object.values(allStats).reduce((sum, stat) => sum + (stat.answered || 0), 0);
-            const totalCorrect = Object.values(allStats).reduce((sum, stat) => sum + (stat.correct || 0), 0);
-            const avgAccuracy = completedChapters > 0 ? Math.round(totalCorrect / totalAttempts * 100) : 0;
+
+            // 计算总尝试次数和正确数（处理数组和对象格式）
+            let totalAttempts = 0;
+            let totalCorrect = 0;
+            Object.values(allStats).forEach(stat => {
+                if (Array.isArray(stat)) {
+                    // 新格式：数组
+                    totalAttempts += stat.reduce((sum, s) => sum + (s.answered || 0), 0);
+                    totalCorrect += stat.reduce((sum, s) => sum + (s.correct || 0), 0);
+                } else {
+                    // 旧格式：对象
+                    totalAttempts += stat.answered || 0;
+                    totalCorrect += stat.correct || 0;
+                }
+            });
+
+            const avgAccuracy = totalAttempts > 0 ? Math.round(totalCorrect / totalAttempts * 100) : 0;
             
             // 获取最后访问时间
             const lastVisit = getCookie(COOKIE_KEY);
@@ -3349,54 +3447,144 @@
                     <div class="stat-label">平均正确率</div>
                 </div>
             `;
-            
-            // 添加清除记录按钮（如果有记录）
-            if (completedChapters > 0 || lastVisit) {
-                const clearBtn = document.createElement('button');
-                clearBtn.textContent = '清除所有记录';
-                clearBtn.style.cssText = 'margin-top: 16px; padding: 8px 16px; background: var(--error-bg); color: var(--error); border: 1px solid var(--error); border-radius: 8px; cursor: pointer; font-size: 0.85rem;';
-                clearBtn.onclick = clearAllProgress;
-                elements.globalStats.parentElement.appendChild(clearBtn);
-            }
         }
 
-        // 获取章节的已做题数（包括已提交和未提交的）
+        // 获取章节的已做题数（返回最新一次记录的已做题数）
         function getChapterAnsweredCount(chapter) {
             const allStats = getAllChapterStats();
-            let totalAnswered = 0;
-            
-            // 统计已提交的答题数（章节级别）
+            let maxAnswered = 0;
+            let latestTimestamp = 0;
+
+            // 优先使用章节级别的记录（最新一次）
             const chapterStat = allStats[chapter];
-            if (chapterStat && chapterStat.answered) {
-                totalAnswered += chapterStat.answered;
-            }
-            
-            // 统计已提交的答题数（小节级别）
-            Object.keys(allStats).forEach(key => {
-                if (key.startsWith(`${chapter}_`)) {
-                    totalAnswered += allStats[key].answered || 0;
+            if (chapterStat) {
+                let latestStat = null;
+                if (Array.isArray(chapterStat)) {
+                    // 新格式：数组，获取最新一次记录
+                    if (chapterStat.length > 0) {
+                        latestStat = chapterStat[chapterStat.length - 1];
+                    }
+                } else if (chapterStat.answered) {
+                    // 旧格式：对象
+                    latestStat = chapterStat;
                 }
-            });
-            
-            // 统计未提交的答题数（当前进度）
-            // 注意：如果用户提交后继续做题，可能会有重复，但为了显示完整性，我们仍然统计
-            try {
-                const savedProgress = localStorage.getItem(STORAGE_KEY);
-                if (savedProgress) {
-                    const progress = JSON.parse(savedProgress);
-                    if (progress.currentChapter === chapter && progress.answers) {
-                        const uncommittedCount = Object.keys(progress.answers).length;
-                        // 如果当前进度是该章节的，加上未提交的数量
-                        // 即使可能有重复（用户提交后又继续做题），也加上，因为这是用户实际做过的题
-                        totalAnswered += uncommittedCount;
+                
+                if (latestStat && latestStat.answered) {
+                    const timestamp = latestStat.timestamp || 0;
+                    if (timestamp >= latestTimestamp) {
+                        maxAnswered = latestStat.answered;
+                        latestTimestamp = timestamp;
                     }
                 }
-            } catch (error) {
-                console.warn('读取进度记录失败:', error);
             }
-            
-            return totalAnswered;
+
+            // 如果没有章节级别的记录，或者小节记录更新，则使用小节级别的记录（最新一次）
+            Object.keys(allStats).forEach(key => {
+                if (key.startsWith(`${chapter}_`)) {
+                    const sectionStat = allStats[key];
+                    let latestStat = null;
+                    if (Array.isArray(sectionStat)) {
+                        // 新格式：数组，获取最新一次记录
+                        if (sectionStat.length > 0) {
+                            latestStat = sectionStat[sectionStat.length - 1];
+                        }
+                    } else if (sectionStat.answered) {
+                        // 旧格式：对象
+                        latestStat = sectionStat;
+                    }
+                    
+                    if (latestStat && latestStat.answered) {
+                        const timestamp = latestStat.timestamp || 0;
+                        // 如果这个记录更新，则更新最大值
+                        if (timestamp > latestTimestamp) {
+                            maxAnswered = latestStat.answered;
+                            latestTimestamp = timestamp;
+                        } else if (timestamp === latestTimestamp && latestStat.answered > maxAnswered) {
+                            // 如果时间戳相同，取较大的值
+                            maxAnswered = latestStat.answered;
+                        }
+                    }
+                }
+            });
+
+            return maxAnswered;
         }
+
+        // 渲染快速入口（最近做题的章节/小节）
+        function renderQuickEntry() {
+            const quickEntrySection = document.getElementById('quickEntrySection');
+            const quickEntryList = document.getElementById('quickEntryList');
+            if (!quickEntrySection || !quickEntryList) return;
+
+            const allStats = getAllChapterStats();
+            const recentEntries = [];
+
+            // 收集所有有记录的章节和小节
+            Object.entries(allStats).forEach(([key, stats]) => {
+                let lastModified = 0;
+                let answered = 0;
+
+                if (Array.isArray(stats)) {
+                    // 新格式：数组
+                    if (stats.length > 0) {
+                        const lastStat = stats[stats.length - 1];
+                        lastModified = lastStat.timestamp || 0;
+                        answered = lastStat.answered || 0;
+                    }
+                } else if (stats) {
+                    // 旧格式：对象
+                    lastModified = stats.timestamp || 0;
+                    answered = stats.answered || 0;
+                }
+
+                if (answered > 0 && lastModified > 0) {
+                    recentEntries.push({
+                        key,
+                        name: key,
+                        answered,
+                        timestamp: lastModified
+                    });
+                }
+            });
+
+            // 按时间戳排序，获取最近的5个
+            recentEntries.sort((a, b) => b.timestamp - a.timestamp);
+            const topRecent = recentEntries.slice(0, 5);
+
+            if (topRecent.length === 0) {
+                quickEntrySection.classList.add('hidden');
+                return;
+            }
+
+            quickEntrySection.classList.remove('hidden');
+            quickEntryList.innerHTML = topRecent.map(entry => `
+                <div class="quick-entry-item" onclick="quickSelectEntry('${entry.key}')">
+                    <div class="quick-entry-item-name">${entry.name}</div>
+                    <div class="quick-entry-item-count">${entry.answered}题</div>
+                </div>
+            `).join('');
+        }
+
+        // 快速选择入口项
+        window.quickSelectEntry = function(key) {
+            // 解析key获取chapter和section
+            const parts = key.split('_');
+            if (parts.length === 1) {
+                // 章节
+                elements.chapterSelect.value = key;
+                handleChapterSelect();
+            } else {
+                // 小节
+                const chapter = parts[0];
+                const section = parseInt(parts[1]);
+                elements.chapterSelect.value = chapter;
+                handleChapterSelect();
+                setTimeout(() => {
+                    elements.sectionSelect.value = section;
+                    handleSectionSelect();
+                }, 100);
+            }
+        };
 
         // 渲染章节统计
         function renderChapterStats() {
@@ -3424,35 +3612,48 @@
                     const incomplete = total - complete;
                     const sectionCount = chapterInfo.sections ? chapterInfo.sections.length : 1;
 
-                    // 获取该章节的学习记录
+                    // 获取该章节的学习记录（最新一次）
                     const chapterStat = allStats[chapter];
-                    // 获取该章节的总已做题数（包括已提交和未提交的）
-                    const totalAnswered = getChapterAnsweredCount(chapter);
+                    let latestStat = null;
+                    if (chapterStat) {
+                        if (Array.isArray(chapterStat)) {
+                            latestStat = chapterStat.length > 0 ? chapterStat[chapterStat.length - 1] : null;
+                        } else {
+                            latestStat = chapterStat;
+                        }
+                    }
                     
+                    // 获取该章节的最新一次已做题数
+                    const totalAnswered = getChapterAnsweredCount(chapter);
+
                     let progressHTML = '';
-                    if (chapterStat || totalAnswered > 0) {
-                        if (chapterStat) {
-                            const progressPercent = Math.round((chapterStat.answered / total) * 100);
-                            progressHTML = `
-                                <div class="chapter-stat-detail" style="color: var(--accent-secondary);">
-                                    <span>📈</span>
-                                    <span>进度: ${progressPercent}% (${chapterStat.answered}/${total})</span>
-                                </div>
-                                <div class="chapter-stat-detail" style="color: ${chapterStat.accuracy >= 80 ? 'var(--success)' : chapterStat.accuracy >= 60 ? 'var(--warning)' : 'var(--error)'};">
-                                    <span>✓</span>
-                                    <span>正确率: ${chapterStat.accuracy}%</span>
-                                </div>
-                            `;
-                        }
-                        // 显示已做题数（即使没有完成记录也显示）
-                        if (totalAnswered > 0) {
+                    // 如果有最新一次记录，显示详细信息
+                    if (latestStat && latestStat.answered) {
+                        const progressPercent = Math.round((latestStat.answered / total) * 100);
+                        progressHTML = `
+                            <div class="chapter-stat-detail" style="color: var(--accent-secondary);">
+                                <span>📈</span>
+                                <span>进度: ${progressPercent}% (${latestStat.answered}/${total})</span>
+                            </div>
+                        `;
+                        // 如果有正确率信息（已提交的记录），显示正确率
+                        if (latestStat.accuracy !== undefined && !latestStat.isUnsubmitted) {
                             progressHTML += `
-                                <div class="chapter-stat-detail" style="color: var(--accent-primary);">
-                                    <span>📝</span>
-                                    <span>已做题: ${totalAnswered}题</span>
+                                <div class="chapter-stat-detail" style="color: ${latestStat.accuracy >= 80 ? 'var(--success)' : latestStat.accuracy >= 60 ? 'var(--warning)' : 'var(--error)'};">
+                                    <span>✓</span>
+                                    <span>正确率: ${latestStat.accuracy}%</span>
                                 </div>
                             `;
                         }
+                    } else if (totalAnswered > 0) {
+                        // 如果没有最新记录但有已做题数，只显示已做题数
+                        const progressPercent = Math.round((totalAnswered / total) * 100);
+                        progressHTML = `
+                            <div class="chapter-stat-detail" style="color: var(--accent-primary);">
+                                <span>📝</span>
+                                <span>已做题: ${totalAnswered}题 (${progressPercent}%)</span>
+                            </div>
+                        `;
                     }
 
                     statsHTML += `
@@ -3496,7 +3697,7 @@
                     const total = questions.length;
                     const complete = questions.filter(q => !isQuestionIncomplete(q)).length;
                     const incomplete = total - complete;
-                    
+
                     // 按小节分组统计
                     const sections = {};
                     questions.forEach(q => {
@@ -3508,35 +3709,48 @@
                     });
                     const sectionCount = Object.keys(sections).length;
 
-                    // 获取该章节的学习记录
+                    // 获取该章节的学习记录（最新一次）
                     const chapterStat = allStats[chapter];
-                    // 获取该章节的总已做题数（包括已提交和未提交的）
-                    const totalAnswered = getChapterAnsweredCount(chapter);
+                    let latestStat = null;
+                    if (chapterStat) {
+                        if (Array.isArray(chapterStat)) {
+                            latestStat = chapterStat.length > 0 ? chapterStat[chapterStat.length - 1] : null;
+                        } else {
+                            latestStat = chapterStat;
+                        }
+                    }
                     
+                    // 获取该章节的最新一次已做题数
+                    const totalAnswered = getChapterAnsweredCount(chapter);
+
                     let progressHTML = '';
-                    if (chapterStat || totalAnswered > 0) {
-                        if (chapterStat) {
-                            const progressPercent = Math.round((chapterStat.answered / total) * 100);
-                            progressHTML = `
-                                <div class="chapter-stat-detail" style="color: var(--accent-secondary);">
-                                    <span>📈</span>
-                                    <span>进度: ${progressPercent}% (${chapterStat.answered}/${total})</span>
-                                </div>
-                                <div class="chapter-stat-detail" style="color: ${chapterStat.accuracy >= 80 ? 'var(--success)' : chapterStat.accuracy >= 60 ? 'var(--warning)' : 'var(--error)'};">
-                                    <span>✓</span>
-                                    <span>正确率: ${chapterStat.accuracy}%</span>
-                                </div>
-                            `;
-                        }
-                        // 显示已做题数（即使没有完成记录也显示）
-                        if (totalAnswered > 0) {
+                    // 如果有最新一次记录，显示详细信息
+                    if (latestStat && latestStat.answered) {
+                        const progressPercent = Math.round((latestStat.answered / total) * 100);
+                        progressHTML = `
+                            <div class="chapter-stat-detail" style="color: var(--accent-secondary);">
+                                <span>📈</span>
+                                <span>进度: ${progressPercent}% (${latestStat.answered}/${total})</span>
+                            </div>
+                        `;
+                        // 如果有正确率信息（已提交的记录），显示正确率
+                        if (latestStat.accuracy !== undefined && !latestStat.isUnsubmitted) {
                             progressHTML += `
-                                <div class="chapter-stat-detail" style="color: var(--accent-primary);">
-                                    <span>📝</span>
-                                    <span>已做题: ${totalAnswered}题</span>
+                                <div class="chapter-stat-detail" style="color: ${latestStat.accuracy >= 80 ? 'var(--success)' : latestStat.accuracy >= 60 ? 'var(--warning)' : 'var(--error)'};">
+                                    <span>✓</span>
+                                    <span>正确率: ${latestStat.accuracy}%</span>
                                 </div>
                             `;
                         }
+                    } else if (totalAnswered > 0) {
+                        // 如果没有最新记录但有已做题数，只显示已做题数
+                        const progressPercent = Math.round((totalAnswered / total) * 100);
+                        progressHTML = `
+                            <div class="chapter-stat-detail" style="color: var(--accent-primary);">
+                                <span>📝</span>
+                                <span>已做题: ${totalAnswered}题 (${progressPercent}%)</span>
+                            </div>
+                        `;
                     }
 
                     statsHTML += `
@@ -3584,22 +3798,88 @@
         };
 
         // 绑定事件
+        // 历史记录状态管理
+        function pushHistoryState(pageState) {
+            const state = pageState || {
+                page: 'welcome'
+            };
+            history.pushState(state, '', window.location.href);
+        }
+
+        // 处理历史记录导航
+        function handlePopState(event) {
+            const pageState = event.state;
+            if (!pageState) {
+                // 如果没有状态，返回首页
+                goHome();
+                return;
+            }
+
+            switch(pageState.page) {
+                case 'welcome':
+                    goHome();
+                    break;
+                case 'mode':
+                    // 恢复到模式选择页面
+                    if (pageState.chapter) {
+                        elements.chapterSelect.value = pageState.chapter;
+                        state.currentChapter = pageState.chapter;
+
+                        if (pageState.section) {
+                            elements.sectionSelect.value = pageState.section;
+                            state.currentSection = parseInt(pageState.section);
+                        }
+
+                        populateSectionSelect(pageState.chapter);
+                        elements.selectedChapterName.textContent = `${pageState.chapter}${pageState.section ? ' - 小节 ' + pageState.section : ''} - 选择模式`;
+                        elements.welcomeSection.classList.add('hidden');
+                        elements.modeSection.classList.remove('hidden');
+                        elements.questionSection.classList.add('hidden');
+                        elements.resultSection.classList.add('hidden');
+                        elements.bottomNav.classList.add('hidden');
+                        updateModeSection();
+                    }
+                    break;
+                case 'quiz':
+                    // 如果在做题中被回退，回到模式选择
+                    goHome();
+                    break;
+                case 'result':
+                    // 结果页面，回到模式选择
+                    if (pageState.chapter) {
+                        elements.chapterSelect.value = pageState.chapter;
+                        state.currentChapter = pageState.chapter;
+                        goHome();
+                    }
+                    break;
+            }
+        }
+
+        // 更新路由状态
+        function updateRoute(page, data = {}) {
+            const pageState = { page, ...data };
+            history.replaceState(pageState, '');
+        }
+
         function bindEvents() {
             // 主题切换
             const themeToggle = document.getElementById('themeToggle');
             if (themeToggle) {
                 themeToggle.addEventListener('click', toggleTheme);
             }
-            
+
+            // 历史记录导航
+            window.addEventListener('popstate', handlePopState);
+
             // 章节选择
             elements.chapterSelect.addEventListener('change', handleChapterSelect);
-            
+
             // 小节选择
             elements.sectionSelect.addEventListener('change', handleSectionSelect);
-            
+
             // 返回首页
             elements.homeBtn.addEventListener('click', goHome);
-            
+
             // 模式选择
             document.querySelectorAll('.mode-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -3679,6 +3959,9 @@
             
             // 更新清除按钮显示
             updateModeSection();
+
+            // 记录历史状态
+            pushHistoryState({ page: 'mode', chapter });
         }
 
         // 处理小节选择
@@ -3688,6 +3971,8 @@
                 state.currentSection = null;
                 // 更新清除按钮显示（显示章节级别的清除按钮）
                 updateModeSection();
+                // 记录历史状态
+                pushHistoryState({ page: 'mode', chapter: state.currentChapter });
                 return;
             }
             
@@ -3717,20 +4002,52 @@
                 else if (sectionNameMap[sectionBase]) {
                     sectionTitle = sectionNameMap[sectionBase];
                 }
-                
+
                 if (sectionTitle) {
                     sectionDisplay += ` ${sectionTitle}`;
                 }
-                
+
                 elements.selectedChapterName.textContent = `${state.currentChapter} - ${sectionDisplay} - 选择模式`;
             }
-            
+
             // 更新清除按钮显示
             updateModeSection();
+
+            // 记录历史状态
+            pushHistoryState({ page: 'mode', chapter: state.currentChapter, section: sectionBase });
         }
 
         // 返回首页
         function goHome() {
+            // 在重置状态之前，保存当前章节的未提交进度
+            if (state.currentChapter && Object.keys(state.answers).length > 0 && !state.submitted) {
+                const answered = Object.keys(state.answers).length;
+                const total = state.questions.length;
+                
+                // 计算正确数（如果有答案的话）
+                let correct = 0;
+                if (state.questions && state.questions.length > 0) {
+                    state.questions.forEach(q => {
+                        if (state.answers[q.id] && state.answers[q.id] === q.answer) {
+                            correct++;
+                        }
+                    });
+                }
+                
+                // 保存章节统计信息（未提交的进度）
+                const stats = {
+                    total: total,
+                    answered: answered,
+                    correct: correct,
+                    wrong: answered - correct,
+                    accuracy: answered > 0 ? Math.round((correct / answered) * 100) : 0,
+                    mode: state.currentMode,
+                    submitTime: new Date().toISOString(),
+                    isUnsubmitted: true // 标记为未提交的记录
+                };
+                saveChapterStats(state.currentChapter, state.currentSection, stats);
+            }
+            
             // 重置状态
             state.currentChapter = '';
             state.currentSection = null;
@@ -3760,7 +4077,11 @@
             // 刷新首页统计数据（实时更新进度）
             renderGlobalStats();
             renderChapterStats();
-            
+            renderQuickEntry();
+
+            // 记录历史状态
+            pushHistoryState({ page: 'welcome' });
+
             // 滚动到顶部
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -3825,9 +4146,12 @@
             elements.modeSection.classList.add('hidden');
             elements.questionSection.classList.remove('hidden');
             elements.bottomNav.classList.remove('hidden');
-            
+
             // 隐藏顶部导航，沉浸式做题
             elements.mainHeader.classList.add('hidden');
+
+            // 记录历史状态
+            pushHistoryState({ page: 'quiz', chapter: state.currentChapter, section: state.currentSection });
 
             if (state.currentMode === 'exam') {
                 elements.submitBtn.classList.remove('hidden');
@@ -4161,14 +4485,17 @@
             elements.questionSection.classList.add('hidden');
             elements.bottomNav.classList.add('hidden');
             elements.resultSection.classList.remove('hidden');
-            
+
             // 显示顶部导航
             elements.mainHeader.classList.remove('hidden');
+
+            // 记录历史状态
+            pushHistoryState({ page: 'result', chapter: state.currentChapter, section: state.currentSection });
 
             // 动画显示分数
             const circumference = 2 * Math.PI * 78;
             const offset = circumference - (accuracy / 100) * circumference;
-            
+
             setTimeout(() => {
                 elements.scoreRing.style.strokeDashoffset = offset;
                 elements.scoreValue.textContent = accuracy;
