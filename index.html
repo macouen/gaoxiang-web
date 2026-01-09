@@ -3143,6 +3143,24 @@
                 savedProgress.currentSection === section &&
                 Object.keys(savedProgress.answers || {}).length > 0;
             
+            // 检查是否有章节统计记录（用于继续做题）
+            let hasChapterStat = false;
+            if (hasStat) {
+                const chapterStat = allStats[statKey];
+                if (chapterStat) {
+                    let latestStat = null;
+                    if (Array.isArray(chapterStat)) {
+                        latestStat = chapterStat.length > 0 ? chapterStat[chapterStat.length - 1] : null;
+                    } else {
+                        latestStat = chapterStat;
+                    }
+                    // 如果有已做题记录，则认为可以继续
+                    if (latestStat && latestStat.answered > 0) {
+                        hasChapterStat = true;
+                    }
+                }
+            }
+            
             // 根据模式和缓存状态更新按钮显示
             if (state.currentMode === 'exam') {
                 // 考试模式：只显示"开始答题"按钮
@@ -3152,13 +3170,13 @@
                 elements.continueBtn.classList.add('hidden');
             } else {
                 // 练习模式
-                if (hasPracticeProgress) {
-                    // 有缓存：显示"重新开始"和"继续（开始）答题"两个按钮
+                if (hasPracticeProgress || hasChapterStat) {
+                    // 有缓存或章节记录：显示"重新开始"和"继续答题"两个按钮
                     elements.startBtn.classList.add('hidden');
                     elements.restartBtn.classList.remove('hidden');
                     elements.continueBtn.classList.remove('hidden');
                 } else {
-                    // 没有缓存：只显示"开始答题"按钮
+                    // 没有缓存和记录：只显示"开始答题"按钮
                     elements.startBtn.classList.remove('hidden');
                     elements.startBtn.textContent = '开始答题';
                     elements.restartBtn.classList.add('hidden');
@@ -4245,7 +4263,7 @@
                     if (savedProgress && 
                         savedProgress.currentChapter === state.currentChapter &&
                         savedProgress.currentSection === state.currentSection) {
-                        // 恢复进度
+                        // 恢复缓存进度
                         state.answers = savedProgress.answers || {};
                         state.currentIndex = savedProgress.currentIndex || 0;
                         // 确保索引有效
@@ -4253,9 +4271,44 @@
                             state.currentIndex = 0;
                         }
                     } else {
-                        // 没有保存的进度，从头开始
-                        state.answers = {};
-                        state.currentIndex = 0;
+                        // 没有缓存进度，尝试从章节统计记录中恢复
+                        const allStats = getAllChapterStats();
+                        const statKey = state.currentSection !== null ? `${state.currentChapter}_${state.currentSection}` : state.currentChapter;
+                        const chapterStat = allStats[statKey];
+                        
+                        if (chapterStat) {
+                            let latestStat = null;
+                            if (Array.isArray(chapterStat)) {
+                                latestStat = chapterStat.length > 0 ? chapterStat[chapterStat.length - 1] : null;
+                            } else {
+                                latestStat = chapterStat;
+                            }
+                            
+                            if (latestStat && latestStat.answered > 0) {
+                                // 根据已做题数定位到对应的题目索引
+                                // 如果做了4道题，应该定位到第5道题（索引4）
+                                let targetIndex = latestStat.answered;
+                                
+                                // 确保索引有效
+                                if (targetIndex >= questions.length) {
+                                    targetIndex = questions.length - 1;
+                                }
+                                if (targetIndex < 0) {
+                                    targetIndex = 0;
+                                }
+                                
+                                state.answers = {};
+                                state.currentIndex = targetIndex;
+                            } else {
+                                // 没有统计记录，从头开始
+                                state.answers = {};
+                                state.currentIndex = 0;
+                            }
+                        } else {
+                            // 没有统计记录，从头开始
+                            state.answers = {};
+                            state.currentIndex = 0;
+                        }
                     }
                 } else {
                     // 开始答题按钮（没有缓存时）：从头开始
