@@ -3547,9 +3547,9 @@
                 }
             });
 
-            // 按时间戳排序，获取最近的5个
+            // 按时间戳排序，只获取最新的1个
             recentEntries.sort((a, b) => b.timestamp - a.timestamp);
-            const topRecent = recentEntries.slice(0, 5);
+            const topRecent = recentEntries.slice(0, 1);
 
             if (topRecent.length === 0) {
                 quickEntrySection.classList.add('hidden');
@@ -3557,33 +3557,154 @@
             }
 
             quickEntrySection.classList.remove('hidden');
-            quickEntryList.innerHTML = topRecent.map(entry => `
-                <div class="quick-entry-item" onclick="quickSelectEntry('${entry.key}')">
+            const entry = topRecent[0];
+            const answered = entry.answered || 0;
+            const timestamp = entry.timestamp || 0;
+            quickEntryList.innerHTML = `
+                <div class="quick-entry-item" onclick="quickSelectEntry('${entry.key}', ${answered}, ${timestamp})">
                     <div class="quick-entry-item-name">${entry.name}</div>
-                    <div class="quick-entry-item-count">${entry.answered}题</div>
+                    <div class="quick-entry-item-count">${answered}题</div>
                 </div>
-            `).join('');
+            `;
         }
 
         // 快速选择入口项
-        window.quickSelectEntry = function(key) {
+        window.quickSelectEntry = function(key, answeredCount, timestamp) {
             // 解析key获取chapter和section
             const parts = key.split('_');
+            let targetChapter = '';
+            let targetSection = null;
+            
             if (parts.length === 1) {
                 // 章节
-                elements.chapterSelect.value = key;
-                handleChapterSelect();
+                targetChapter = key;
             } else {
                 // 小节
-                const chapter = parts[0];
-                const section = parseInt(parts[1]);
-                elements.chapterSelect.value = chapter;
-                handleChapterSelect();
-                setTimeout(() => {
-                    elements.sectionSelect.value = section;
-                    handleSectionSelect();
-                }, 100);
+                targetChapter = parts[0];
+                targetSection = parseInt(parts[1]);
             }
+            
+            // 设置章节选择
+            elements.chapterSelect.value = targetChapter;
+            
+            // 异步处理章节选择
+            const handleQuickEntry = async () => {
+                // 触发章节选择事件
+                const event = new Event('change');
+                elements.chapterSelect.dispatchEvent(event);
+                
+                // 等待章节数据加载完成
+                await new Promise(resolve => {
+                    const checkLoaded = () => {
+                        if (questionBank[targetChapter] || loadedChapters[targetChapter]) {
+                            resolve();
+                        } else {
+                            setTimeout(checkLoaded, 50);
+                        }
+                    };
+                    checkLoaded();
+                });
+                
+                // 如果选择了小节，设置小节选择
+                if (targetSection !== null) {
+                    elements.sectionSelect.value = targetSection;
+                    const sectionEvent = new Event('change');
+                    elements.sectionSelect.dispatchEvent(sectionEvent);
+                    // 等待小节选择完成
+                    await new Promise(resolve => setTimeout(resolve, 150));
+                }
+                
+                // 设置练习模式
+                const practiceBtn = document.querySelector('[data-mode="practice"]');
+                if (practiceBtn) {
+                    practiceBtn.click();
+                }
+                state.currentMode = 'practice';
+                
+                // 等待模式选择完成
+                await new Promise(resolve => setTimeout(resolve, 100));
+                
+                // 获取题目列表
+                let questions = questionBank[targetChapter] || loadedChapters[targetChapter];
+                if (!questions) {
+                    // 如果还没有加载，尝试加载
+                    try {
+                        await loadChapterData(targetChapter);
+                        questions = questionBank[targetChapter] || loadedChapters[targetChapter];
+                    } catch (error) {
+                        console.error('加载章节数据失败:', error);
+                        return;
+                    }
+                }
+                
+                if (questions) {
+                    // 如果选择了小节，过滤题目
+                    if (targetSection !== null) {
+                        const sectionBase = targetSection;
+                        questions = questions.filter(q => {
+                            const qSectionBase = Math.floor(q.id / 100) * 100;
+                            return qSectionBase === sectionBase;
+                        });
+                    }
+                    
+                    // 根据已做题数定位到对应的题目索引
+                    // 如果做了4道题，应该定位到第5道题（索引4）
+                    let targetIndex = answeredCount;
+                    
+                    // 确保索引有效
+                    if (targetIndex >= questions.length) {
+                        targetIndex = questions.length - 1;
+                    }
+                    if (targetIndex < 0) {
+                        targetIndex = 0;
+                    }
+                    
+                    // 加载之前的进度（如果有）
+                    const savedProgress = loadProgress();
+                    if (savedProgress && 
+                        savedProgress.currentChapter === targetChapter &&
+                        savedProgress.currentSection === targetSection) {
+                        // 使用保存的进度
+                        state.answers = savedProgress.answers || {};
+                        // 如果保存的索引更接近最新位置，使用保存的索引
+                        const savedIndex = savedProgress.currentIndex || 0;
+                        if (savedIndex > targetIndex) {
+                            targetIndex = savedIndex;
+                        }
+                    } else {
+                        // 没有保存的进度，从头开始
+                        state.answers = {};
+                    }
+                    
+                    // 设置题目和索引
+                    state.questions = questions;
+                    state.currentIndex = targetIndex;
+                    state.submitted = false;
+                    
+                    // 开始答题
+                    elements.modeSection.classList.add('hidden');
+                    elements.questionSection.classList.remove('hidden');
+                    elements.bottomNav.classList.remove('hidden');
+                    elements.mainHeader.classList.add('hidden');
+                    
+                    // 记录历史状态
+                    pushHistoryState({ page: 'quiz', chapter: targetChapter, section: targetSection });
+                    
+                    // 隐藏提交按钮（练习模式）
+                    elements.submitBtn.classList.add('hidden');
+                    elements.nextBtn.style.maxWidth = '160px';
+                    resetExamTimer();
+                    
+                    // 渲染题目
+                    renderQuestion();
+                    updateProgress();
+                    
+                    // 滚动到顶部
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            };
+            
+            handleQuickEntry();
         };
 
         // 渲染章节统计
